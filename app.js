@@ -10,6 +10,10 @@ const app = express();
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
+app.get('/', (req, res) => {
+    res.send('Working...');
+});
+
 app.get('/webhook', (req, res) => {
     let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
