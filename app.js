@@ -38,17 +38,18 @@ app.post('/webhook', (req, res) => {
 
     if (body.object === 'page') {
         body.entry.forEach(entry => {
-            let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
+            entry.messaging.forEach(messageEvent => {
+                console.log(messageEvent);
 
-            let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
+                let sender_psid = messageEvent.sender.id;
+                console.log('Sender PSID: ' + sender_psid);
 
-            if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
-            } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
-            }
+                if (messageEvent.message) {
+                    handleMessage(sender_psid, messageEvent.message);
+                } else if (messageEvent.postback) {
+                    handlePostback(sender_psid, messageEvent.postback);
+                }
+            });
         });
 
         res.status(200).send('EVENT_RECEIVED');
@@ -125,7 +126,7 @@ const callSendAPI = (sender_psid, response) => {
     }
 
     request({
-        'uri': 'https://graph.facebook.com/v2.6/me/messages',
+        'uri': configHolder.SEND_API,
         'qs': { 'access_token': configHolder.ACCESS_TOKEN },
         'method': 'POST',
         'json': request_body
