@@ -24,21 +24,78 @@ const messageResponses = {
         "id": 2,
         "questions": [
             {
-                "question": "So, tell me what's your name?"
+                "asked": false,
+                "question": "So, tell me what's your full name?"
             },
             {
-                "question": "What's "
+                "asked": false,
+                "question": "What's your email address that you would like to share?"
             },
             {
-                "question": "So, tell me what's your name?"
+                "asked": false,
+                "question": "Your Phone Number??"
             },
             {
-                "question": "So, tell me what's your name?"
+                "asked": false,
+                "question": "Can you give us a link to your Linkedin profile?",
+                "quick_replies": [
+                    "I don't have a Linkedin account!"
+                ]
             },
+            {
+                "asked": false,
+                "question": "What's the link to your portfolio?",
+                "quick_replies": [
+                    "I don't have a portfolio yet!"
+                ]
+            }
         ]
     },
     "education": {
-        "id": 3
+        "id": 3,
+        "questions": [
+            {
+                "asked": false,
+                "question": "Would you like to begin with the Education section? or would you like to skip it?",
+                "quick_replies": [
+                    "Yes, let's begin",
+                    "Let's skip it"
+                ]
+            },
+            {
+                "asked": false,
+                "question": [
+                    {
+                        "done": false,
+                        "ask": "What's the Institute Name??"
+                    },
+                    {
+                        "done": false,
+                        "ask": "Where is it located?"
+                    },
+                    {
+                        "done": false,
+                        "ask": "What was/is your Stream over there?"
+                    },
+                    {
+                        "done": false,
+                        "ask": "What was/is your Major over there?"
+                    },
+                    {
+                        "done": false,
+                        "ask": "What was your CGPA or Percentage??"
+                    },
+                    {
+                        "done": false,
+                        "ask": "Do you want to add another education?",
+                        "quick_replies": [
+                            "Yes, I do",
+                            "No, this is enough"
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     "skills": {
         "id": 4
