@@ -1,16 +1,21 @@
-require('dotenv').config();
-
 'use strict';
+
+require('dotenv').config();
 
 const { urlencoded, json } = require('body-parser');
 const request = require('request');
+const path = require('path');
+const http = require('http');
 const configHolder = require('./config');
 
 const express = require('express');
 const app = express();
 
 const port = process.env.PORT || 8080;
+const server = http.createServer(app)
 
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
@@ -42,7 +47,6 @@ app.post('/webhook', (req, res) => {
                 console.log(messageEvent);
 
                 let sender_psid = messageEvent.sender.id;
-                console.log('Sender PSID: ' + sender_psid);
 
                 if (messageEvent.message) {
                     console.log(messageEvent.message);
@@ -59,7 +63,7 @@ app.post('/webhook', (req, res) => {
     }
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Running on ${port}`);
 });
 
