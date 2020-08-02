@@ -46,13 +46,10 @@ app.post('/webhook', (req, res) => {
             pageEntry.messaging.forEach(messageEvent => {
                 console.log(messageEvent);
 
-                let sender_psid = messageEvent.sender.id;
-
                 if (messageEvent.message) {
-                    console.log(messageEvent.message);
-                    handleMessage(sender_psid, messageEvent.message);
+                    handleMessage(messageEvent);
                 } else if (messageEvent.postback) {
-                    handlePostback(sender_psid, messageEvent.postback);
+                    handlePostback(messageEvent);
                 }
             });
         });
@@ -68,15 +65,19 @@ server.listen(port, () => {
 });
 
 // Handles messages events
-const handleMessage = (sender_psid, received_message) => {
+const handleMessage = (messageEvent) => {
+    const message = messageEvent.message;
+    const senderID = messageEvent.sender.id;
     let response;
 
-    if (received_message.text) {
+    if (message.text) {
         response = {
-            'text': `You sent the message: '${received_message.text}'. Now send me an attachment!`
+            'text': `You sent the message: '${message.text}'. Now send me an attachment!`
         }
-    } else if (received_message.attachments) {
-        let attachment_url = received_message.attachments[0].payload.url;
+    } else if (message.quick_reply) {
+
+    } else if (message.attachments) {
+        let attachment_url = message.attachments[0].payload.url;
         response = {
             'attachment': {
                 'type': 'template',
@@ -104,21 +105,23 @@ const handleMessage = (sender_psid, received_message) => {
         }
     }
 
-    callSendAPI(sender_psid, response);
+    callSendAPI(senderID, response);
 }
 
 // Handles messaging_postbacks events
-const handlePostback = (sender_psid, received_postback) => {
+const handlePostback = (sender_psid, postbackEvent) => {
+    const senderID = postbackEvent.sender.id;
+    const postback = postbackEvent.postback;
     let response;
 
-    let payload = received_postback.payload;
+    let payload = postback.payload;
 
     if (payload === 'yes') {
         response = { 'text': 'Thanks!' }
     } else if (payload === 'no') {
         response = { 'text': 'Oops, try sending another image.' }
     }
-    callSendAPI(sender_psid, response);
+    callSendAPI(senderID, response);
 }
 
 // Sends response messages via the Send API
