@@ -3,4 +3,5 @@
 /.vscode
 package-lock.json
 
+# environment variables
 .env
