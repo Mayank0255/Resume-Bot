@@ -37,7 +37,7 @@ app.post('/webhook', (req, res) => {
     let body = req.body;
 
     if (body.object === 'page') {
-        body.entry.forEach(function(entry) {
+        body.entry.forEach(entry => {
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
 
@@ -62,18 +62,14 @@ app.listen(port, () => {
 });
 
 // Handles messages events
-function handleMessage(sender_psid, received_message) {
+const handleMessage = (sender_psid, received_message) => {
     let response;
 
-    // Checks if the message contains text
     if (received_message.text) {
-        // Create the payload for a basic text message, which
-        // will be added to the body of our request to the Send API
         response = {
             'text': `You sent the message: '${received_message.text}'. Now send me an attachment!`
         }
     } else if (received_message.attachments) {
-        // Get the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
         response = {
             'attachment': {
@@ -102,30 +98,25 @@ function handleMessage(sender_psid, received_message) {
         }
     }
 
-    // Send the response message
     callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
+const handlePostback = (sender_psid, received_postback) => {
     let response;
 
-    // Get the payload for the postback
     let payload = received_postback.payload;
 
-    // Set the response based on the postback payload
     if (payload === 'yes') {
         response = { 'text': 'Thanks!' }
     } else if (payload === 'no') {
         response = { 'text': 'Oops, try sending another image.' }
     }
-    // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
 }
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
-    // Construct the message body
+const callSendAPI = (sender_psid, response) => {
     let request_body = {
         'recipient': {
             'id': sender_psid
@@ -133,14 +124,12 @@ function callSendAPI(sender_psid, response) {
         'message': response
     }
 
-    // Send the HTTP request to the Messenger Platform
     request({
         'uri': 'https://graph.facebook.com/v2.6/me/messages',
         'qs': { 'access_token': configHolder.ACCESS_TOKEN },
         'method': 'POST',
         'json': request_body
     }, (err, res, body) => {
-        console.log(res);
         if (!err) {
             console.log('message sent!')
         } else {
