@@ -20,7 +20,7 @@ app.use(urlencoded({ extended: true }));
 app.use(json());
 
 app.get('/', (req, res) => {
-    res.send('Working...');
+    res.render('index');
 });
 
 app.get('/webhook', (req, res) => {
