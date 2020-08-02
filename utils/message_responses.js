@@ -25,15 +25,18 @@ const messageResponses = {
         "questions": [
             {
                 "asked": false,
-                "question": "So, tell me what's your full name?"
+                "question": "So, tell me what's your full name?",
+                "quick_replies": null
             },
             {
                 "asked": false,
-                "question": "What's your email address that you would like to share?"
+                "question": "What's your email address that you would like to share?",
+                "quick_replies": null
             },
             {
                 "asked": false,
-                "question": "Your Phone Number??"
+                "question": "Your Phone Number??",
+                "quick_replies": null
             },
             {
                 "asked": false,
@@ -67,23 +70,28 @@ const messageResponses = {
                 "question": [
                     {
                         "done": false,
-                        "ask": "What's the Institute Name??"
+                        "ask": "What's the Institute Name??",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
-                        "ask": "Where is it located?"
+                        "ask": "Where is it located?",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
-                        "ask": "What was/is your Stream over there?"
+                        "ask": "What was/is your Stream over there?",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
-                        "ask": "What was/is your Major over there?"
+                        "ask": "What was/is your Major over there?",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
-                        "ask": "What was your CGPA or Percentage??"
+                        "ask": "What was your CGPA or Percentage??",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
@@ -113,11 +121,13 @@ const messageResponses = {
                 "question": [
                     {
                         "done": false,
-                        "ask": "Give a sub-title to the type of skills like languages, programming, etc."
+                        "ask": "Give a sub-title to the type of skills like languages, programming, etc.",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
-                        "ask": "Give us all the skills related to the sub-title you just wrote. (Note: separate them with a comma)"
+                        "ask": "Give us all the skills related to the sub-title you just wrote. (Note: separate them with a comma)",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
@@ -147,23 +157,28 @@ const messageResponses = {
                 "question": [
                     {
                         "done": false,
-                        "ask": "What's the name of the organisation??"
+                        "ask": "What's the name of the organisation??",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
-                        "ask": "What was your role over there? e.g.: software developer"
+                        "ask": "What was your role over there? e.g.: software developer",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
-                        "ask": "Where's the organisation located? e.g.: Gurgaon, Haryana"
+                        "ask": "Where's the organisation located? e.g.: Gurgaon, Haryana",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
-                        "ask": "What was the timeline of your experience there? e.g.: July 2020 - August 2020"
+                        "ask": "What was the timeline of your experience there? e.g.: July 2020 - August 2020",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
-                        "ask": "Give us a description of it in a single paragraph."
+                        "ask": "Give us a description of it in a single paragraph.",
+                        "quick_replies": null
                     },
                     {
                         "done": false,
@@ -192,7 +207,6 @@ const messageResponses = {
     "end": {
         "id": 10
     }
-
 }
 
 module.exports = messageResponses;
