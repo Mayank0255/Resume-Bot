@@ -1,7 +1,8 @@
 'use strict';
 
+const dotenv = require('dotenv');
+dotenv.config();
 const { urlencoded, json } = require('body-parser');
-
 
 const express = require('express');
 const app = express();
@@ -10,7 +11,7 @@ app.use(urlencoded({ extended: true }));
 app.use(json());
 
 app.get('/webhook', (req, res) => {
-    let VERIFY_TOKEN = "6YQo3ntcovUH7cRZ29ijNdO5XMxYxlU8oc1069FbNj0="
+    let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
