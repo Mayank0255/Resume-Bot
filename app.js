@@ -110,6 +110,7 @@ const handleMessage = (messageEvent) => {
 
 // Handles messaging_postbacks events
 const handlePostback = (sender_psid, postbackEvent) => {
+    console.log('HERE:', postbackEvent)
     const senderID = postbackEvent.sender.id;
     const postback = postbackEvent.postback;
     let response;
