@@ -44,8 +44,16 @@ app.post('/webhook', (req, res) => {
     if (body.object === 'page') {
         body.entry.forEach(pageEntry => {
             pageEntry.messaging.forEach(messageEvent => {
-                console.log(messageEvent);
-
+                switch (messageEvent) {
+                    case messageEvent.message:
+                        console.log('message working');
+                        break
+                    case messageEvent.postback:
+                        console.log('postback working');
+                        break
+                    default:
+                        console.log('not working');
+                }
                 if (messageEvent.message) {
                     handleMessage(messageEvent);
                 } else if (messageEvent.postback) {
@@ -110,7 +118,6 @@ const handleMessage = (messageEvent) => {
 
 // Handles messaging_postbacks events
 const handlePostback = (postbackEvent) => {
-    console.log('HERE:', postbackEvent)
     const senderID = postbackEvent.sender.id;
     const postback = postbackEvent.postback;
     let response;
@@ -126,10 +133,10 @@ const handlePostback = (postbackEvent) => {
 }
 
 // Sends response messages via the Send API
-const callSendAPI = (sender_psid, response) => {
+const callSendAPI = (senderID, response) => {
     let request_body = {
         'recipient': {
-            'id': sender_psid
+            'id': senderID
         },
         'message': response
     }
