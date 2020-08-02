@@ -45,7 +45,7 @@ app.post('/webhook', (req, res) => {
         body.entry.forEach(pageEntry => {
             pageEntry.messaging.forEach(messageEvent => {
                 switch (messageEvent) {
-                    case message:
+                    case messageEvent.message in messageEvent:
                         console.log('message working');
                         break
                     case postback:
