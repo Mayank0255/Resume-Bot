@@ -37,7 +37,7 @@ app.post('/webhook', (req, res) => {
     let body = req.body;
 
     if (body.object === 'page') {
-        body.entry.forEach((entry) => {
+        body.entry.forEach(function(entry) {
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
 
@@ -62,7 +62,7 @@ app.listen(port, () => {
 });
 
 // Handles messages events
-const handleMessage = (sender_psid, received_message) => {
+function handleMessage(sender_psid, received_message) {
     let response;
 
     // Checks if the message contains text
@@ -107,7 +107,7 @@ const handleMessage = (sender_psid, received_message) => {
 }
 
 // Handles messaging_postbacks events
-const handlePostback = (sender_psid, received_postback) => {
+function handlePostback(sender_psid, received_postback) {
     let response;
 
     // Get the payload for the postback
@@ -124,7 +124,7 @@ const handlePostback = (sender_psid, received_postback) => {
 }
 
 // Sends response messages via the Send API
-const callSendAPI = (sender_psid, response) => {
+function callSendAPI(sender_psid, response) {
     // Construct the message body
     let request_body = {
         'recipient': {
@@ -140,6 +140,7 @@ const callSendAPI = (sender_psid, response) => {
         'method': 'POST',
         'json': request_body
     }, (err, res, body) => {
+        console.log(res);
         if (!err) {
             console.log('message sent!')
         } else {
