@@ -44,16 +44,6 @@ app.post('/webhook', (req, res) => {
     if (body.object === 'page') {
         body.entry.forEach(pageEntry => {
             pageEntry.messaging.forEach(messageEvent => {
-                switch (messageEvent) {
-                    case messageEvent.message in messageEvent:
-                        console.log('message working');
-                        break
-                    case postback:
-                        console.log('postback working');
-                        break
-                    default:
-                        console.log('not working');
-                }
                 if (messageEvent.message) {
                     handleMessage(messageEvent);
                 } else if (messageEvent.postback) {
