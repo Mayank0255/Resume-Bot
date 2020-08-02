@@ -25,6 +25,9 @@ const order = [
     },
     {
         "publications": false
+    },
+    {
+        "end": false
     }
 ]
 

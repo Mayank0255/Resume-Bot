@@ -98,10 +98,84 @@ const messageResponses = {
         ]
     },
     "skills": {
-        "id": 4
+        "id": 4,
+        "questions": [
+            {
+                "asked": false,
+                "question": "Would you like to begin with the Skills section? or would you like to skip it?",
+                "quick_replies": [
+                    "Yes, let's begin",
+                    "Let's skip it"
+                ]
+            },
+            {
+                "asked": false,
+                "question": [
+                    {
+                        "done": false,
+                        "ask": "Give a sub-title to the type of skills like languages, programming, etc."
+                    },
+                    {
+                        "done": false,
+                        "ask": "Give us all the skills related to the sub-title you just wrote. (Note: separate them with a comma)"
+                    },
+                    {
+                        "done": false,
+                        "ask": "Do you want to add another skill sub-title?",
+                        "quick_replies": [
+                            "Yes, I do",
+                            "No, this is enough"
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     "work experience": {
-        "id": 5
+        "id": 5,
+        "questions": [
+            {
+                "asked": false,
+                "question": "Would you like to begin with the Work Experience section? or would you like to skip it?",
+                "quick_replies": [
+                    "Yes, let's begin",
+                    "Let's skip it"
+                ]
+            },
+            {
+                "asked": false,
+                "question": [
+                    {
+                        "done": false,
+                        "ask": "What's the name of the organisation??"
+                    },
+                    {
+                        "done": false,
+                        "ask": "What was your role over there? e.g.: software developer"
+                    },
+                    {
+                        "done": false,
+                        "ask": "Where's the organisation located? e.g.: Gurgaon, Haryana"
+                    },
+                    {
+                        "done": false,
+                        "ask": "What was the timeline of your experience there? e.g.: July 2020 - August 2020"
+                    },
+                    {
+                        "done": false,
+                        "ask": "Give us a description of it in a single paragraph."
+                    },
+                    {
+                        "done": false,
+                        "ask": "Do you want to add another experience?",
+                        "quick_replies": [
+                            "Yes, I do",
+                            "No, this is enough"
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     "projects": {
         "id": 6
@@ -114,7 +188,11 @@ const messageResponses = {
     },
     "publications": {
         "id": 9
+    },
+    "end": {
+        "id": 10
     }
+
 }
 
 module.exports = messageResponses;
