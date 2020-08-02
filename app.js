@@ -45,10 +45,10 @@ app.post('/webhook', (req, res) => {
         body.entry.forEach(pageEntry => {
             pageEntry.messaging.forEach(messageEvent => {
                 switch (messageEvent) {
-                    case messageEvent.message:
+                    case message:
                         console.log('message working');
                         break
-                    case messageEvent.postback:
+                    case postback:
                         console.log('postback working');
                         break
                     default:
