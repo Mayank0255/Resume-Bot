@@ -86,25 +86,22 @@ const handleMessage = (messageEvent) => {
         console.log('CREATED:  ', connectedUsers)
     }
 
-    let currentSection = '';
-    connectedUsers[senderID].some(({ type, status }) => {
-        if (status === false) {
-            currentSection = type
-            console.log('SECTION CHECK:  ', currentSection)
-            return true
-        } else {
-            return false
-        }
-    });
-
     let currentQuestion = '';
     let currentQuickReplies = '';
-    responseStructure[currentSection].questions.some(({ asked, question, quick_replies }) => {
-        if (asked === false) {
-            currentQuestion = question
-            currentQuickReplies = quick_replies
-            console.log('QUESTION CHECK:  ', currentQuestion)
-            console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
+    connectedUsers[senderID].some(({ type, status }) => {
+        if (status === false) {
+            console.log('SECTION CHECK:  ', type)
+            responseStructure[type].questions.some(({ asked, question, quick_replies }) => {
+                if (asked === false) {
+                    currentQuestion = question
+                    currentQuickReplies = quick_replies
+                    console.log('QUESTION CHECK:  ', currentQuestion)
+                    console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
+                    return true
+                } else {
+                    return false
+                }
+            });
             return true
         } else {
             return false
