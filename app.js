@@ -73,7 +73,11 @@ server.listen(port, () => {
  *  }
  */
 
-var connectedUsers = {};
+var connectedUsers = {}
+
+let previousSection = '';
+let previousText = '';
+let previousQuickReplies = '';
 
 // Handles messages events
 const handleMessage = (messageEvent) => {
@@ -85,6 +89,10 @@ const handleMessage = (messageEvent) => {
         connectedUsers[senderID] = responseOrder;
         console.log('CREATED:  ', connectedUsers[senderID]);
     }
+
+    console.log('SECTION CHECK:  ', previousSection);
+    console.log('QUESTION CHECK:  ', previousText)
+    console.log('QUICK REPLY CHECK:  ', previousQuickReplies)
 
     let currentSection = '';
     let currentText = '';
@@ -129,6 +137,10 @@ const handleMessage = (messageEvent) => {
     console.log('SECTION CHECK:  ', currentSection);
     console.log('QUESTION CHECK:  ', currentText)
     console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
+
+    previousSection = currentSection;
+    previousText = currentText;
+    previousQuickReplies = currentQuickReplies;
 
     if (message.text || message.quick_reply) {
         response = {
