@@ -178,7 +178,10 @@ const handleMessage = (messageEvent) => {
                             {
                                 'type': 'postback',
                                 'title': 'Yes!',
-                                'payload': 'yes',
+                                'payload': {
+                                    'text': 'Yes!',
+                                    'name': 'Mayank'
+                                },
                             },
                             {
                                 'type': 'postback',
@@ -201,13 +204,15 @@ const handlePostback = (postbackEvent) => {
     const postback = postbackEvent.postback;
     let response;
 
-    let payload = postback.payload;
+    console.log(postbackEvent.payload)
 
-    if (payload === 'yes') {
-        response = { 'text': 'Thanks!' }
-    } else if (payload === 'no') {
-        response = { 'text': 'Oops, try sending another image.' }
-    }
+    // let payload = postback.payload;
+    //
+    // if (payload === 'yes') {
+    response = { 'text': 'Thanks!' }
+    // } else if (payload === 'no') {
+    //     response = { 'text': 'Oops, try sending another image.' }
+    // }
     callSendAPI(senderID, response);
 }
 
