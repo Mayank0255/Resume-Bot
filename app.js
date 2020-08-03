@@ -87,7 +87,7 @@ const handleMessage = (messageEvent) => {
     } else {
         console.log(connectedUsers[senderID][0].status)
         if (connectedUsers[senderID][0].status === false) {
-            connectedUsers[senderID][0].status
+            connectedUsers[senderID][0].status = true
         }
         console.log('CHECKED:  ', connectedUsers[senderID])
     }
