@@ -67,8 +67,14 @@ server.listen(port, () => {
 /**
  *  maintain pool of connected users in connectedUsers
  *  {
- *      sender_psid1: responseOrder,
- *      sender_psid2: responseOrder,
+ *      sender_psid1: {
+ *          order: responseOrder,
+ *          structure: responseStructure
+ *      },
+ *      sender_psid2: {
+ *          order: responseOrder,
+ *          structure: responseStructure
+ *      },
  *      ...
  *  }
  */
@@ -89,6 +95,10 @@ const handleMessage = (messageEvent) => {
         connectedUsers[senderID] = responseOrder;
         console.log('CREATED:  ', connectedUsers[senderID]);
     }
+
+    // if (previousSection === 'begin' && message.quick_reply.payload === previousQuickReplies[1]) {
+    //     responseStructure['begin'].questions[0].asked = false
+    // }
 
     console.log('SECTION CHECK:  ', previousSection);
     console.log('QUESTION CHECK:  ', previousText)
@@ -178,10 +188,7 @@ const handleMessage = (messageEvent) => {
                             {
                                 'type': 'postback',
                                 'title': 'Yes!',
-                                'payload': {
-                                    'text': 'Yes!',
-                                    'name': 'Mayank'
-                                },
+                                'payload': 'yes',
                             },
                             {
                                 'type': 'postback',
@@ -204,15 +211,13 @@ const handlePostback = (postbackEvent) => {
     const postback = postbackEvent.postback;
     let response;
 
-    console.log(postbackEvent.payload)
+    let payload = postback.payload;
 
-    // let payload = postback.payload;
-    //
-    // if (payload === 'yes') {
-    response = { 'text': 'Thanks!' }
-    // } else if (payload === 'no') {
-    //     response = { 'text': 'Oops, try sending another image.' }
-    // }
+    if (payload === 'yes') {
+        response = { 'text': 'Thanks!' }
+    } else if (payload === 'no') {
+        response = { 'text': 'Oops, try sending another image.' }
+    }
     callSendAPI(senderID, response);
 }
 

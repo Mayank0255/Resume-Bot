@@ -4,18 +4,10 @@ const responsesStructure = {
         "questions": [
             {
                 "asked": false,
-                "question": "Hey, would you like to begin with your resume?",
+                "question": "Hey, would you like to begin with your resume? It might take about 10-15 minutes.",
                 "quick_replies": [
                     "Ya sure",
                     "Not now"
-                ]
-            },
-            {
-                "asked": false,
-                "question": "It might take about 10-15 minutes. That's fine right?",
-                "quick_replies": [
-                    "Yes that's fine",
-                    "Sorry then"
                 ]
             }
         ]
