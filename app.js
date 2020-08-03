@@ -7,6 +7,8 @@ const request = require('request');
 const path = require('path');
 const http = require('http');
 const configHolder = require('./config');
+const order = require('./utils/order');
+const responseStructure = require('./utils/responseStructure');
 
 const express = require('express');
 const app = express();
@@ -62,11 +64,29 @@ server.listen(port, () => {
     console.log(`Running on ${port}`);
 });
 
+/**
+ *  maintain pool of connected users in connectedUsers
+ *  {
+ *      sender_psid1: order,
+ *      sender_psid2: order,
+ *      ...
+ *  }
+ */
+
+var connectedUsers = {};
+
 // Handles messages events
 const handleMessage = (messageEvent) => {
     const message = messageEvent.message;
     const senderID = messageEvent.sender.id;
     let response;
+
+    if (!(senderID in connectedUsers)) {
+        connectedUsers[senderID] = order;
+        console.log('CREATED:  ', connectedUsers[senderID])
+    } else {
+        console.log('CHECKED:  ', connectedUsers[senderID])
+    }
 
     if (message.text) {
         response = {
