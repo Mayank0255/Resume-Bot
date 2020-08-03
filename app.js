@@ -102,7 +102,9 @@ const handleMessage = (messageEvent) => {
                     return true
                 }
             });
-            section.status = true
+            if (responseStructure[section.type].questions[responseStructure[section.type].questions.length - 1].asked === true) {
+                section.status = true
+            }
             return true
         }
     });
