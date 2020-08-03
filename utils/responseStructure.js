@@ -1,4 +1,4 @@
-const messageResponses = {
+const responsesStructure = {
     "begin": {
         "id": 1,
         "questions": [
@@ -193,20 +193,172 @@ const messageResponses = {
         ]
     },
     "projects": {
-        "id": 6
+        "id": 6,
+        "questions": [
+            {
+                "asked": false,
+                "question": "Would you like to begin with the Projects section? or would you like to skip it?",
+                "quick_replies": [
+                    "Yes, let's begin",
+                    "Let's skip it"
+                ]
+            },
+            {
+                "asked": false,
+                "question": [
+                    {
+                        "done": false,
+                        "ask": "Name of the Project??",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "Give us any kind of link related to it. e.g.: source code",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "How much time did it take? e.g.: July 2020 - August 2020",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "Give us a description of the project in one paragraph.",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "Do you want to add another project?",
+                        "quick_replies": [
+                            "Yes, I do",
+                            "No, this is enough"
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     "achievements": {
-        "id": 7
+        "id": 7,
+        "questions": [
+            {
+                "asked": false,
+                "question": "Would you like to begin with your Achievements section? or would you like to skip it?",
+                "quick_replies": [
+                    "Yes, let's begin",
+                    "Let's skip it"
+                ]
+            },
+            {
+                "asked": false,
+                "question": [
+                    {
+                        "done": false,
+                        "ask": "What's the achievement that you would like to share?",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "And when was this? e.g.: september, 2018",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "Do you want to add another achievement?",
+                        "quick_replies": [
+                            "Yes, I do",
+                            "No, this is enough"
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     "certifications": {
-        "id": 8
+        "id": 8,
+        "questions": [
+            {
+                "asked": false,
+                "question": "Would you like to begin with your Certifications section? or would you like to skip it?",
+                "quick_replies": [
+                    "Yes, let's begin",
+                    "Let's skip it"
+                ]
+            },
+            {
+                "asked": false,
+                "question": [
+                    {
+                        "done": false,
+                        "ask": "Which Certification would you like to begin with??",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "And when was this? e.g.: september, 2018",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "Do you want to give another certification?",
+                        "quick_replies": [
+                            "Yes, I do",
+                            "No, this is enough"
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     "publications": {
-        "id": 9
+        "id": 9,
+        "questions": [
+            {
+                "asked": false,
+                "question": "Would you like to begin with your Publications section? or would you like to skip it?",
+                "quick_replies": [
+                    "Yes, let's begin",
+                    "Let's skip it"
+                ]
+            },
+            {
+                "asked": false,
+                "question": [
+                    {
+                        "done": false,
+                        "ask": "What was the publication that you would like to give?",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "And when was this? e.g.: september, 2018",
+                        "quick_replies": null
+                    },
+                    {
+                        "done": false,
+                        "ask": "Do you want to add another publication?",
+                        "quick_replies": [
+                            "Yes, I do",
+                            "No, this is enough"
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     "end": {
-        "id": 10
+        "id": 10,
+        "questions": [
+            {
+                "asked": false,
+                "question": "So, the questionnaire has finally come to an end. Would like to see your resume?",
+                "quick_replies": [
+                    "Ya, I surely would!",
+                    "Nah!"
+                ]
+            }
+        ]
     }
 }
 
-module.exports = messageResponses;
+module.exports = responsesStructure;
