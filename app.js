@@ -95,11 +95,28 @@ const handleMessage = (messageEvent) => {
 
             currentSection.some(question => {
                 if (!question.asked) {
-                    currentText = question.question
-                    currentQuickReplies = question.quick_replies
-                    console.log('QUESTION CHECK:  ', currentText)
-                    console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
-                    question.asked = true
+                    if (typeof question.question === 'string') {
+                        currentText = question.question
+                        currentQuickReplies = question.quick_replies
+                        console.log('QUESTION CHECK:  ', currentText)
+                        console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
+                        question.asked = true
+                    } else {
+                        question.question.some(question => {
+                            if (!question.done) {
+                                currentText = question.ask
+                                currentQuickReplies = question.quick_replies
+                                console.log('QUESTION CHECK:  ', currentText)
+                                console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
+                                question.done = true
+                                return true
+                            }
+                        });
+
+                        if (question.question[question.question.length - 1].done) {
+                            question.asked = true
+                        }
+                    }
                     return true
                 }
             });
