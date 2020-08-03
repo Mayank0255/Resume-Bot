@@ -88,25 +88,22 @@ const handleMessage = (messageEvent) => {
 
     let currentQuestion = '';
     let currentQuickReplies = '';
-    connectedUsers[senderID].some(({ type, status }) => {
-        if (status === false) {
-            console.log('SECTION CHECK:  ', type)
-            responseStructure[type].questions.some(question => {
+    connectedUsers[senderID].some(section => {
+        if (section.status === false) {
+            console.log('SECTION CHECK:  ', section.type)
+            responseStructure[section.type].questions.some(question => {
                 if (question.asked === false) {
                     currentQuestion = question.question
                     currentQuickReplies = question.quick_replies
                     console.log('QUESTION CHECK:  ', currentQuestion)
                     console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
                     question.asked = true
-                    console.log('CURRENT SECTION LENGTH CHECK', responseStructure[type].questions.length)
+                    console.log('CURRENT SECTION LENGTH CHECK', responseStructure[section.type].questions.length)
                     return true
-                } else {
-                    return false
                 }
             });
+            section.status = true
             return true
-        } else {
-            return false
         }
     });
 
