@@ -84,20 +84,54 @@ const handleMessage = (messageEvent) => {
     if (!(senderID in connectedUsers)) {
         connectedUsers[senderID] = order;
         console.log('CREATED:  ', connectedUsers)
-    } else {
-        console.log(connectedUsers[senderID][0].status)
-        if (connectedUsers[senderID][0].status === false) {
-            connectedUsers[senderID][0].status = true
-        }
-        console.log('CHECKED:  ', connectedUsers[senderID])
     }
 
-    if (message.text) {
+    let currentSection = '';
+    connectedUsers[senderID].some(({ type, status }) => {
+        if (status === false) {
+            currentSection = type
+            console.log('SECTION CHECK:  ', currentSection)
+            return true
+        } else {
+            return false
+        }
+    });
+
+    let currentQuestion = '';
+    let currentQuickReplies = '';
+    responseStructure[currentSection].questions.some(({ asked, question, quick_replies }) => {
+        if (asked === false) {
+            currentQuestion = question
+            currentQuickReplies = quick_replies
+            console.log('QUESTION CHECK:  ', currentQuestion)
+            console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
+            return true
+        } else {
+            return false
+        }
+    });
+
+    if (message.text || message.quick_reply) {
         response = {
             'text': `You sent the message: '${message.text}'. Now send me an attachment!`
         }
     } else if (message.quick_reply) {
-
+        response = {
+            "text": "Pick a color:",
+            "quick_replies":[
+                {
+                    "content_type":"text",
+                    "title":"Red",
+                    "payload":"red",
+                    "image_url":"http://example.com/img/red.png"
+                },{
+                    "content_type":"text",
+                    "title":"Green",
+                    "payload":"green",
+                    "image_url":"http://example.com/img/green.png"
+                }
+            ]
+        }
     } else if (message.attachments) {
         let attachment_url = message.attachments[0].payload.url;
         response = {
