@@ -7,7 +7,7 @@ const request = require('request');
 const path = require('path');
 const http = require('http');
 const configHolder = require('./config');
-const order = require('./utils/order');
+const responseOrder = require('./utils/responseOrder');
 const responseStructure = require('./utils/responseStructure');
 
 const express = require('express');
@@ -67,8 +67,8 @@ server.listen(port, () => {
 /**
  *  maintain pool of connected users in connectedUsers
  *  {
- *      sender_psid1: order,
- *      sender_psid2: order,
+ *      sender_psid1: responseOrder,
+ *      sender_psid2: responseOrder,
  *      ...
  *  }
  */
@@ -82,32 +82,32 @@ const handleMessage = (messageEvent) => {
     let response;
 
     if (!(senderID in connectedUsers)) {
-        connectedUsers[senderID] = order;
-        console.log('CREATED:  ', connectedUsers)
+        connectedUsers[senderID] = responseOrder;
+        console.log('CREATED:  ', connectedUsers[senderID]);
     }
 
+    let currentSection = '';
     let currentText = '';
     let currentQuickReplies = '';
+
+    // section traversal
     connectedUsers[senderID].some(section => {
         if (!section.status) {
-            console.log('SECTION CHECK:  ', section.type)
-            let currentSection = responseStructure[section.type].questions;
+            currentSection = responseStructure[section.type];
 
-            currentSection.some(question => {
+            // questions traversal
+            currentSection.questions.some(question => {
                 if (!question.asked) {
                     if (typeof question.question === 'string') {
                         currentText = question.question
                         currentQuickReplies = question.quick_replies
-                        console.log('QUESTION CHECK:  ', currentText)
-                        console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
                         question.asked = true
                     } else {
+                        // question streak traversal
                         question.question.some(question => {
                             if (!question.done) {
                                 currentText = question.ask
                                 currentQuickReplies = question.quick_replies
-                                console.log('QUESTION CHECK:  ', currentText)
-                                console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
                                 question.done = true
                                 return true
                             }
@@ -120,12 +120,15 @@ const handleMessage = (messageEvent) => {
                     return true
                 }
             });
-            if (currentSection[currentSection.length - 1].asked) {
+            if (currentSection.questions[currentSection.questions.length - 1].asked) {
                 section.status = true
             }
             return true
         }
     });
+    console.log('SECTION CHECK:  ', currentSection);
+    console.log('QUESTION CHECK:  ', currentText)
+    console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
 
     if (message.text || message.quick_reply) {
         response = {
@@ -210,7 +213,7 @@ const callSendAPI = (senderID, response) => {
         'qs': { 'access_token': configHolder.ACCESS_TOKEN },
         'method': 'POST',
         'json': request_body
-    }, (err, res, body) => {
+    }, (err) => {
         if (!err) {
             console.log('message sent!')
         } else {

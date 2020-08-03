@@ -1,4 +1,4 @@
-const order = [
+const responseOrder = [
     {
         "type": "begin",
         "status": false
@@ -41,4 +41,4 @@ const order = [
     }
 ]
 
-module.exports = order;
+module.exports = responseOrder;
