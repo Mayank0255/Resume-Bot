@@ -1,33 +1,43 @@
 const order = [
     {
-        "begin": false
+        "type": "begin",
+        "status": false
     },
     {
-        "header": false
+        "type": "header",
+        "status": false
     },
     {
-        "education": false
+        "type": "education",
+        "status": false
     },
     {
-        "skills": false
+        "type": "skills",
+        "status": false
     },
     {
-        "work experience": false
+        "type": "work experience",
+        "status": false
     },
     {
-        "projects": false
+        "type": "projects",
+        "status": false
     },
     {
-        "achievements": false
+        "type": "achievements",
+        "status": false
     },
     {
-        "certifications": false
+        "type": "certifications",
+        "status": false
     },
     {
-        "publications": false
+        "type": "publications",
+        "status": false
     },
     {
-        "end": false
+        "type": "end",
+        "status": false
     }
 ]
 
