@@ -85,6 +85,9 @@ const handleMessage = (messageEvent) => {
         connectedUsers[senderID] = order;
         console.log('CREATED:  ', connectedUsers[senderID])
     } else {
+        if (connectedUsers[senderID][0].status === false) {
+            connectedUsers[senderID][0].status
+        }
         console.log('CHECKED:  ', connectedUsers[senderID])
     }
 
