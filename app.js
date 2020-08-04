@@ -97,30 +97,36 @@ const handleMessage = (messageEvent) => {
         connectedUsers[senderID] = responseOrder;
         console.log('CREATED:  ', connectedUsers[senderID]);
     }
+    /**
+     * 1. check if it's a quick reply
+     * 2. compiler similar sections into one so that only one loop runs
+     * 3. don't use raw text
+     * 4. setup response structure for each user separately
+     * 5. extract the data that you will be using only
+     */
+
+    let checkList = [
+        'education',
+        'skills',
+        'work experience',
+        'projects',
+        'achievements',
+        'certifications',
+        'publications'
+    ]
 
     if (previousSectionName === 'begin' && message.quick_reply.payload === previousQuickReplies[1]) {
         previousSection.questions[0].asked = false
-    } else if (previousSectionName === 'education' && previousSection.questions[0].question === 'Would you like to begin with the Education section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
-        previousSection.questions[0].asked = true
-        previousSection.questions[1].asked = true
-    } else if (previousSectionName === 'skills' && previousSection.questions[0].question === 'Would you like to begin with the Skills section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
-        previousSection.questions[0].asked = true
-        previousSection.questions[1].asked = true
-    } else if (previousSectionName === 'work experience' && previousSection.questions[0].question === 'Would you like to begin with the Work Experience section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
-        previousSection.questions[0].asked = true
-        previousSection.questions[1].asked = true
-    } else if (previousSectionName === 'projects' && previousSection.questions[0].question === 'Would you like to begin with the Projects section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
-        previousSection.questions[0].asked = true
-        previousSection.questions[1].asked = true
-    } else if (previousSectionName === 'achievements' && previousSection.questions[0].question === 'Would you like to begin with your Achievements section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
-        previousSection.questions[0].asked = true
-        previousSection.questions[1].asked = true
-    } else if (previousSectionName === 'certifications' && previousSection.questions[0].question === 'Would you like to begin with your Certifications section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
-        previousSection.questions[0].asked = true
-        previousSection.questions[1].asked = true
-    } else if (previousSectionName === 'publications' && previousSection.questions[0].question === 'Would you like to begin with your Publications section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
-        previousSection.questions[0].asked = true
-        previousSection.questions[1].asked = true
+    } else if (previousSectionName in checkList) {
+        if (responseStructure[previousSectionName].questions[0].question === previousText && message.quick_reply.payload === previousQuickReplies[1]) {
+            responseStructure[previousSectionName].questions[0].asked = true
+            responseStructure[previousSectionName].questions[1].asked = true
+        } else if (responseStructure[previousSectionName].questions[1].question[responseStructure[previousSectionName].questions[1].question.length - 1].ask === previousText) {
+            responseStructure[previousSectionName].questions[1].asked = false;
+            responseStructure[previousSectionName].questions[1].question.forEach(question => {
+                question.done = false
+            });
+        }
     } else if (previousSectionName === 'end' && message.quick_reply.payload === previousQuickReplies[0]) {
         toPrepareResume = true;
     }
