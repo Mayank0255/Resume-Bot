@@ -195,7 +195,7 @@ const handleMessage = (messageEvent) => {
         // without quick reply
         } else if (currentQuickReplies.length === 0) {
             response = {
-                'text': `You sent the message: '${message.text}'. Now send me an attachment!`
+                'text': currentQuestion
             }
         }
     } else if (message.attachments) {
