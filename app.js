@@ -97,50 +97,33 @@ const handleMessage = (messageEvent) => {
             order: responseOrder,
             structure: responseStructure
         };
-        console.log('CREATED:  ', connectedUsers[senderID]);
     }
     /**
      * 5. extract the data that you will be using only
      */
 
-    let checkList = [
-        'education',
-        'skills',
-        'work experience',
-        'projects',
-        'achievements',
-        'certifications',
-        'publications'
-    ]
-
-    let indices = {
-        'begin': 0,
-        'header': 1,
+    let checkList = {
         'education': 2,
         'skills': 3,
         'work experience': 4,
         'projects': 5,
         'achievements': 6,
         'certifications': 7,
-        'publications': 8,
-        'end': 9
+        'publications': 8
     }
 
-    console.log('LINE 114:', message.quick_reply)
     if (message.quick_reply) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             connectedUsers[senderID].structure[currentSectionName].questions[0].asked = false
-            connectedUsers[senderID].order[indices[currentSectionName]].status = false
-            console.log('LINE 118:', message.quick_reply)
-        } else if (checkList.includes(currentSectionName)) {
-            console.log('LINE 120:', message.quick_reply)
+            connectedUsers[senderID].order[0].status = false
+        } else if (currentSectionName in checkList) {
             if (typeof connectedUsers[senderID].structure[currentSectionName].questions[0].question === 'string' && connectedUsers[senderID].structure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
                 connectedUsers[senderID].structure[currentSectionName].questions[0].asked = true
                 connectedUsers[senderID].structure[currentSectionName].questions[1].asked = true
-                connectedUsers[senderID].order[indices[currentSectionName]].status = true
+                connectedUsers[senderID].order[checkList[currentSectionName]].status = true
             } else if (connectedUsers[senderID].structure[currentSectionName].questions[1].question[connectedUsers[senderID].structure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
                 connectedUsers[senderID].structure[currentSectionName].questions[1].asked = false;
-                connectedUsers[senderID].order[indices[currentSectionName]].status = false
+                connectedUsers[senderID].order[checkList[currentSectionName]].status = false
                 connectedUsers[senderID].structure[currentSectionName].questions[1].question.forEach(question => {
                     question.done = false
                 });
