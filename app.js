@@ -81,10 +81,10 @@ server.listen(port, () => {
 
 var connectedUsers = {}
 
-let previousSection = '';
-let previousSectionName = '';
-let previousText = '';
-let previousQuickReplies = '';
+let currentSection = '';
+let currentSectionName = '';
+let currentText = '';
+let currentQuickReplies = '';
 let toPrepareResume = false;
 
 // Handles messages events
@@ -98,9 +98,6 @@ const handleMessage = (messageEvent) => {
         console.log('CREATED:  ', connectedUsers[senderID]);
     }
     /**
-     * 1. check if it's a quick reply
-     * 2. compiler similar sections into one so that only one loop runs
-     * 3. don't use raw text
      * 4. setup response structure for each user separately
      * 5. extract the data that you will be using only
      */
@@ -115,30 +112,23 @@ const handleMessage = (messageEvent) => {
         'publications'
     ]
 
-    if (previousSectionName === 'begin' && message.quick_reply.payload === previousQuickReplies[1]) {
-        previousSection.questions[0].asked = false
-    } else if (previousSectionName in checkList) {
-        if (responseStructure[previousSectionName].questions[0].question === previousText && message.quick_reply.payload === previousQuickReplies[1]) {
-            responseStructure[previousSectionName].questions[0].asked = true
-            responseStructure[previousSectionName].questions[1].asked = true
-        } else if (responseStructure[previousSectionName].questions[1].question[responseStructure[previousSectionName].questions[1].question.length - 1].ask === previousText) {
-            responseStructure[previousSectionName].questions[1].asked = false;
-            responseStructure[previousSectionName].questions[1].question.forEach(question => {
-                question.done = false
-            });
+    if (message.quick_reply) {
+        if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
+            currentSection.questions[0].asked = false
+        } else if (currentSectionName in checkList) {
+            if (typeof responseStructure[currentSectionName].questions[0].question === 'string' && responseStructure[currentSectionName].questions[0].question === currentText && message.quick_reply.payload === currentQuickReplies[1]) {
+                responseStructure[currentSectionName].questions[0].asked = true
+                responseStructure[currentSectionName].questions[1].asked = true
+            } else if (typeof responseStructure[currentSectionName].questions[0].question !== 'string' && responseStructure[currentSectionName].questions[1].question[responseStructure[currentSectionName].questions[1].question.length - 1].ask === currentText) {
+                responseStructure[currentSectionName].questions[1].asked = false;
+                responseStructure[currentSectionName].questions[1].question.forEach(question => {
+                    question.done = false
+                });
+            }
+        } else if (currentSectionName === 'end' && message.quick_reply.payload === currentQuickReplies[0]) {
+            toPrepareResume = true;
         }
-    } else if (previousSectionName === 'end' && message.quick_reply.payload === previousQuickReplies[0]) {
-        toPrepareResume = true;
     }
-
-    console.log('SECTION CHECK:  ', previousSection);
-    console.log('QUESTION CHECK:  ', previousText)
-    console.log('QUICK REPLY CHECK:  ', previousQuickReplies)
-
-    let currentSection = '';
-    let currentSectionName = '';
-    let currentText = '';
-    let currentQuickReplies = '';
 
     // check if we have reached the end or not
     if (!toPrepareResume) {
@@ -183,11 +173,6 @@ const handleMessage = (messageEvent) => {
     console.log('SECTION CHECK:  ', currentSection);
     console.log('QUESTION CHECK:  ', currentText)
     console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
-
-    previousSection = currentSection;
-    previousSectionName = currentSectionName;
-    previousText = currentText;
-    previousQuickReplies = currentQuickReplies;
 
     if (message.text || message.quick_reply) {
         response = {
