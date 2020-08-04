@@ -137,7 +137,7 @@ const handleMessage = (messageEvent) => {
                 responseStructure[currentSectionName].questions[0].asked = true
                 responseStructure[currentSectionName].questions[1].asked = true
                 connectedUsers[senderID][indices[currentSectionName]].status = true
-            } else if (typeof responseStructure[currentSectionName].questions[0].question !== 'string' && responseStructure[currentSectionName].questions[1].question[responseStructure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion) {
+            } else if (responseStructure[currentSectionName].questions[1].question[responseStructure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
                 console.log('LINE 126:', message.quick_reply)
                 responseStructure[currentSectionName].questions[1].asked = false;
                 connectedUsers[senderID][indices[currentSectionName]].status = false
