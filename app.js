@@ -82,8 +82,10 @@ server.listen(port, () => {
 var connectedUsers = {}
 
 let previousSection = '';
+let previousSectionName = '';
 let previousText = '';
 let previousQuickReplies = '';
+let toPrepareResume = false;
 
 // Handles messages events
 const handleMessage = (messageEvent) => {
@@ -96,59 +98,88 @@ const handleMessage = (messageEvent) => {
         console.log('CREATED:  ', connectedUsers[senderID]);
     }
 
-    // if (previousSection === 'begin' && message.quick_reply.payload === previousQuickReplies[1]) {
-    //     responseStructure['begin'].questions[0].asked = false
-    // }
+    if (previousSectionName === 'begin' && message.quick_reply.payload === previousQuickReplies[1]) {
+        previousSection.questions[0].asked = false
+    } else if (previousSectionName === 'education' && previousSection.questions[0].question === 'Would you like to begin with the Education section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
+        previousSection.questions[0].asked = true
+        previousSection.questions[1].asked = true
+    } else if (previousSectionName === 'skills' && previousSection.questions[0].question === 'Would you like to begin with the Skills section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
+        previousSection.questions[0].asked = true
+        previousSection.questions[1].asked = true
+    } else if (previousSectionName === 'work experience' && previousSection.questions[0].question === 'Would you like to begin with the Work Experience section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
+        previousSection.questions[0].asked = true
+        previousSection.questions[1].asked = true
+    } else if (previousSectionName === 'projects' && previousSection.questions[0].question === 'Would you like to begin with the Projects section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
+        previousSection.questions[0].asked = true
+        previousSection.questions[1].asked = true
+    } else if (previousSectionName === 'achievements' && previousSection.questions[0].question === 'Would you like to begin with your Achievements section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
+        previousSection.questions[0].asked = true
+        previousSection.questions[1].asked = true
+    } else if (previousSectionName === 'certifications' && previousSection.questions[0].question === 'Would you like to begin with your Certifications section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
+        previousSection.questions[0].asked = true
+        previousSection.questions[1].asked = true
+    } else if (previousSectionName === 'publications' && previousSection.questions[0].question === 'Would you like to begin with your Publications section? or would you like to skip it?' && message.quick_reply.payload === previousQuickReplies[1]) {
+        previousSection.questions[0].asked = true
+        previousSection.questions[1].asked = true
+    } else if (previousSectionName === 'end' && message.quick_reply.payload === previousQuickReplies[0]) {
+        toPrepareResume = true;
+    }
 
     console.log('SECTION CHECK:  ', previousSection);
     console.log('QUESTION CHECK:  ', previousText)
     console.log('QUICK REPLY CHECK:  ', previousQuickReplies)
 
     let currentSection = '';
+    let currentSectionName = '';
     let currentText = '';
     let currentQuickReplies = '';
 
-    // section traversal
-    connectedUsers[senderID].some(section => {
-        if (!section.status) {
-            currentSection = responseStructure[section.type];
+    // check if we have reached the end or not
+    if (!toPrepareResume) {
+        // section traversal
+        connectedUsers[senderID].some(section => {
+            if (!section.status) {
+                currentSection = responseStructure[section.type];
+                currentSectionName = section.type;
 
-            // questions traversal
-            currentSection.questions.some(question => {
-                if (!question.asked) {
-                    if (typeof question.question === 'string') {
-                        currentText = question.question
-                        currentQuickReplies = question.quick_replies
-                        question.asked = true
-                    } else {
-                        // question streak traversal
-                        question.question.some(question => {
-                            if (!question.done) {
-                                currentText = question.ask
-                                currentQuickReplies = question.quick_replies
-                                question.done = true
-                                return true
-                            }
-                        });
-
-                        if (question.question[question.question.length - 1].done) {
+                // questions traversal
+                currentSection.questions.some(question => {
+                    if (!question.asked) {
+                        if (typeof question.question === 'string') {
+                            currentText = question.question
+                            currentQuickReplies = question.quick_replies
                             question.asked = true
+                        } else {
+                            // question streak traversal
+                            question.question.some(question => {
+                                if (!question.done) {
+                                    currentText = question.ask
+                                    currentQuickReplies = question.quick_replies
+                                    question.done = true
+                                    return true
+                                }
+                            });
+
+                            if (question.question[question.question.length - 1].done) {
+                                question.asked = true
+                            }
                         }
+                        return true
                     }
-                    return true
+                });
+                if (currentSection.questions[currentSection.questions.length - 1].asked) {
+                    section.status = true
                 }
-            });
-            if (currentSection.questions[currentSection.questions.length - 1].asked) {
-                section.status = true
+                return true
             }
-            return true
-        }
-    });
+        });
+    }
     console.log('SECTION CHECK:  ', currentSection);
     console.log('QUESTION CHECK:  ', currentText)
     console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
 
     previousSection = currentSection;
+    previousSectionName = currentSectionName;
     previousText = currentText;
     previousQuickReplies = currentQuickReplies;
 
