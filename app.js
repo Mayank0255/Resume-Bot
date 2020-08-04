@@ -111,6 +111,7 @@ const handleMessage = (messageEvent) => {
         'publications'
     ]
 
+    console.log(message.quick_reply)
     if (message.quick_reply) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             currentSection.questions[0].asked = false
