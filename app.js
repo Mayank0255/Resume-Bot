@@ -111,11 +111,24 @@ const handleMessage = (messageEvent) => {
         'publications'
     ]
 
+    let indices = {
+        'begin': 0,
+        'header': 1,
+        'education': 2,
+        'skills': 3,
+        'work experience': 4,
+        'projects': 5,
+        'achievements': 6,
+        'certifications': 7,
+        'publications': 8,
+        'end': 9
+    }
+
     console.log('LINE 114:', message.quick_reply)
     if (message.quick_reply) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             responseStructure[currentSectionName].questions[0].asked = false
-            connectedUsers[senderID][0].status = false
+            connectedUsers[senderID][indices[currentSectionName]].status = false
             console.log('LINE 118:', message.quick_reply)
         } else if (checkList.includes(currentSectionName)) {
             console.log('LINE 120:', message.quick_reply)
@@ -123,9 +136,11 @@ const handleMessage = (messageEvent) => {
                 console.log('LINE 122:', message.quick_reply)
                 responseStructure[currentSectionName].questions[0].asked = true
                 responseStructure[currentSectionName].questions[1].asked = true
+                connectedUsers[senderID][indices[currentSectionName]].status = true
             } else if (typeof responseStructure[currentSectionName].questions[0].question !== 'string' && responseStructure[currentSectionName].questions[1].question[responseStructure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion) {
                 console.log('LINE 126:', message.quick_reply)
                 responseStructure[currentSectionName].questions[1].asked = false;
+                connectedUsers[senderID][indices[currentSectionName]].status = false
                 responseStructure[currentSectionName].questions[1].question.forEach(question => {
                     question.done = false
                 });

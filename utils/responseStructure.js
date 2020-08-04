@@ -34,14 +34,14 @@ const responsesStructure = {
                 "asked": false,
                 "question": "Can you give us a link to your Linkedin profile?",
                 "quick_replies": [
-                    "I don't have a Linkedin account!"
+                    "I don't have that!"
                 ]
             },
             {
                 "asked": false,
                 "question": "What's the link to your portfolio?",
                 "quick_replies": [
-                    "I don't have a portfolio yet!"
+                    "I don't have that!"
                 ]
             }
         ]
