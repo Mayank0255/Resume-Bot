@@ -181,10 +181,10 @@ const handleMessage = (messageEvent) => {
             }
         });
     }
-    // console.log('SECTION NAME CHECK:  ', currentSectionName);
-    // console.log('QUESTION CHECK:  ', currentQuestion);
-    // console.log('QUICK REPLY CHECK:  ', currentQuickReplies);
-    // console.log('SECTION CHECK:  ', currentSection);
+    console.log('SECTION NAME CHECK:  ', currentSectionName);
+    console.log('QUESTION CHECK:  ', currentQuestion);
+    console.log('QUICK REPLY CHECK:  ', currentQuickReplies);
+    console.log('SECTION CHECK:  ', currentSection);
 
     let response;
 
@@ -239,7 +239,6 @@ const handleMessage = (messageEvent) => {
         }
     }
 
-    console.log('RESPONSE CHECK:', response)
     callSendAPI(senderID, response);
 }
 
