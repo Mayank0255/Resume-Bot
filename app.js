@@ -93,11 +93,13 @@ const handleMessage = (messageEvent) => {
     const senderID = messageEvent.sender.id;
 
     if (!(senderID in connectedUsers)) {
-        connectedUsers[senderID] = responseOrder;
+        connectedUsers[senderID] = {
+            order: responseOrder,
+            structure: responseStructure
+        };
         console.log('CREATED:  ', connectedUsers[senderID]);
     }
     /**
-     * 4. setup response structure for each user separately
      * 5. extract the data that you will be using only
      */
 
@@ -127,19 +129,19 @@ const handleMessage = (messageEvent) => {
     console.log('LINE 114:', message.quick_reply)
     if (message.quick_reply) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
-            responseStructure[currentSectionName].questions[0].asked = false
-            connectedUsers[senderID][indices[currentSectionName]].status = false
+            connectedUsers[senderID].structure[currentSectionName].questions[0].asked = false
+            connectedUsers[senderID].order[indices[currentSectionName]].status = false
             console.log('LINE 118:', message.quick_reply)
         } else if (checkList.includes(currentSectionName)) {
             console.log('LINE 120:', message.quick_reply)
-            if (typeof responseStructure[currentSectionName].questions[0].question === 'string' && responseStructure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
-                responseStructure[currentSectionName].questions[0].asked = true
-                responseStructure[currentSectionName].questions[1].asked = true
-                connectedUsers[senderID][indices[currentSectionName]].status = true
-            } else if (responseStructure[currentSectionName].questions[1].question[responseStructure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
-                responseStructure[currentSectionName].questions[1].asked = false;
-                connectedUsers[senderID][indices[currentSectionName]].status = false
-                responseStructure[currentSectionName].questions[1].question.forEach(question => {
+            if (typeof connectedUsers[senderID].structure[currentSectionName].questions[0].question === 'string' && connectedUsers[senderID].structure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
+                connectedUsers[senderID].structure[currentSectionName].questions[0].asked = true
+                connectedUsers[senderID].structure[currentSectionName].questions[1].asked = true
+                connectedUsers[senderID].order[indices[currentSectionName]].status = true
+            } else if (connectedUsers[senderID].structure[currentSectionName].questions[1].question[connectedUsers[senderID].structure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
+                connectedUsers[senderID].structure[currentSectionName].questions[1].asked = false;
+                connectedUsers[senderID].order[indices[currentSectionName]].status = false
+                connectedUsers[senderID].structure[currentSectionName].questions[1].question.forEach(question => {
                     question.done = false
                 });
             }
@@ -151,9 +153,9 @@ const handleMessage = (messageEvent) => {
     // check if we have reached the end or not
     if (!toPrepareResume) {
         // section traversal
-        connectedUsers[senderID].some(section => {
+        connectedUsers[senderID].order.some(section => {
             if (!section.status) {
-                currentSection = responseStructure[section.type];
+                currentSection = connectedUsers[senderID].structure[section.type];
                 currentSectionName = section.type;
 
                 // questions traversal
