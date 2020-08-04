@@ -111,15 +111,19 @@ const handleMessage = (messageEvent) => {
         'publications'
     ]
 
-    console.log(message.quick_reply)
+    console.log('LINE 114:', message.quick_reply)
     if (message.quick_reply) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
-            currentSection.questions[0].asked = false
+            responseStructure[currentSectionName].questions[0].asked = false
+            console.log('LINE 118:', message.quick_reply)
         } else if (checkList.includes(currentSectionName)) {
+            console.log('LINE 120:', message.quick_reply)
             if (typeof responseStructure[currentSectionName].questions[0].question === 'string' && responseStructure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
+                console.log('LINE 122:', message.quick_reply)
                 responseStructure[currentSectionName].questions[0].asked = true
                 responseStructure[currentSectionName].questions[1].asked = true
             } else if (typeof responseStructure[currentSectionName].questions[0].question !== 'string' && responseStructure[currentSectionName].questions[1].question[responseStructure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion) {
+                console.log('LINE 126:', message.quick_reply)
                 responseStructure[currentSectionName].questions[1].asked = false;
                 responseStructure[currentSectionName].questions[1].question.forEach(question => {
                     question.done = false
