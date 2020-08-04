@@ -81,17 +81,16 @@ server.listen(port, () => {
 
 var connectedUsers = {}
 
-let currentSection = '';
+let currentSection = {};
 let currentSectionName = '';
-let currentText = '';
-let currentQuickReplies = '';
+let currentQuestion = '';
+let currentQuickReplies = [];
 let toPrepareResume = false;
 
 // Handles messages events
 const handleMessage = (messageEvent) => {
     const message = messageEvent.message;
     const senderID = messageEvent.sender.id;
-    let response;
 
     if (!(senderID in connectedUsers)) {
         connectedUsers[senderID] = responseOrder;
@@ -115,11 +114,11 @@ const handleMessage = (messageEvent) => {
     if (message.quick_reply) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             currentSection.questions[0].asked = false
-        } else if (currentSectionName in checkList) {
-            if (typeof responseStructure[currentSectionName].questions[0].question === 'string' && responseStructure[currentSectionName].questions[0].question === currentText && message.quick_reply.payload === currentQuickReplies[1]) {
+        } else if (checkList.includes(currentSectionName)) {
+            if (typeof responseStructure[currentSectionName].questions[0].question === 'string' && responseStructure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
                 responseStructure[currentSectionName].questions[0].asked = true
                 responseStructure[currentSectionName].questions[1].asked = true
-            } else if (typeof responseStructure[currentSectionName].questions[0].question !== 'string' && responseStructure[currentSectionName].questions[1].question[responseStructure[currentSectionName].questions[1].question.length - 1].ask === currentText) {
+            } else if (typeof responseStructure[currentSectionName].questions[0].question !== 'string' && responseStructure[currentSectionName].questions[1].question[responseStructure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion) {
                 responseStructure[currentSectionName].questions[1].asked = false;
                 responseStructure[currentSectionName].questions[1].question.forEach(question => {
                     question.done = false
@@ -142,14 +141,14 @@ const handleMessage = (messageEvent) => {
                 currentSection.questions.some(question => {
                     if (!question.asked) {
                         if (typeof question.question === 'string') {
-                            currentText = question.question
+                            currentQuestion = question.question
                             currentQuickReplies = question.quick_replies
                             question.asked = true
                         } else {
                             // question streak traversal
                             question.question.some(question => {
                                 if (!question.done) {
-                                    currentText = question.ask
+                                    currentQuestion = question.ask
                                     currentQuickReplies = question.quick_replies
                                     question.done = true
                                     return true
@@ -170,30 +169,34 @@ const handleMessage = (messageEvent) => {
             }
         });
     }
+    console.log('SECTION NAME CHECK:  ', currentSectionName);
+    console.log('QUESTION CHECK:  ', currentQuestion);
+    console.log('QUICK REPLY CHECK:  ', currentQuickReplies);
     console.log('SECTION CHECK:  ', currentSection);
-    console.log('QUESTION CHECK:  ', currentText)
-    console.log('QUICK REPLY CHECK:  ', currentQuickReplies)
+
+    let response;
 
     if (message.text || message.quick_reply) {
-        response = {
-            'text': `You sent the message: '${message.text}'. Now send me an attachment!`
-        }
-    } else if (message.quick_reply) {
-        response = {
-            "text": "Pick a color:",
-            "quick_replies":[
-                {
-                    "content_type":"text",
-                    "title":"Red",
-                    "payload":"red",
-                    "image_url":"http://example.com/img/red.png"
-                },{
-                    "content_type":"text",
-                    "title":"Green",
-                    "payload":"green",
-                    "image_url":"http://example.com/img/green.png"
-                }
-            ]
+        // with quick reply
+        if (currentQuickReplies.length > 0) {
+            // let quickReplies = []
+            response = {
+                text: currentQuestion,
+                quick_replies: []
+            };
+
+            for (let quickReply of currentQuickReplies) {
+                response["quick_replies"].push({
+                    content_type: "text",
+                    title: quickReply,
+                    payload: quickReply
+                });
+            }
+        // without quick reply
+        } else if (currentQuickReplies.length === 0) {
+            response = {
+                'text': `You sent the message: '${message.text}'. Now send me an attachment!`
+            }
         }
     } else if (message.attachments) {
         let attachment_url = message.attachments[0].payload.url;
@@ -224,6 +227,7 @@ const handleMessage = (messageEvent) => {
         }
     }
 
+    console.log('RESPONSE CHECK:', response)
     callSendAPI(senderID, response);
 }
 

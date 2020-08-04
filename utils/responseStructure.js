@@ -18,17 +18,17 @@ const responsesStructure = {
             {
                 "asked": false,
                 "question": "So, tell me what's your full name?",
-                "quick_replies": null
+                "quick_replies": []
             },
             {
                 "asked": false,
                 "question": "What's your email address that you would like to share?",
-                "quick_replies": null
+                "quick_replies": []
             },
             {
                 "asked": false,
                 "question": "Your Phone Number??",
-                "quick_replies": null
+                "quick_replies": []
             },
             {
                 "asked": false,
@@ -63,27 +63,27 @@ const responsesStructure = {
                     {
                         "done": false,
                         "ask": "What's the Institute Name??",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "Where is it located?",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "What was/is your Stream over there?",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "What was/is your Major over there?",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "What was your CGPA or Percentage??",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
@@ -114,12 +114,12 @@ const responsesStructure = {
                     {
                         "done": false,
                         "ask": "Give a sub-title to the type of skills like languages, programming, etc.",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "Give us all the skills related to the sub-title you just wrote. (Note: separate them with a comma)",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
@@ -150,27 +150,27 @@ const responsesStructure = {
                     {
                         "done": false,
                         "ask": "What's the name of the organisation??",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "What was your role over there? e.g.: software developer",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "Where's the organisation located? e.g.: Gurgaon, Haryana",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "What was the timeline of your experience there? e.g.: July 2020 - August 2020",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "Give us a description of it in a single paragraph.",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
@@ -201,22 +201,22 @@ const responsesStructure = {
                     {
                         "done": false,
                         "ask": "Name of the Project??",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "Give us any kind of link related to it. e.g.: source code",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "How much time did it take? e.g.: July 2020 - August 2020",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "Give us a description of the project in one paragraph.",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
@@ -247,12 +247,12 @@ const responsesStructure = {
                     {
                         "done": false,
                         "ask": "What's the achievement that you would like to share?",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "And when was this? e.g.: september, 2018",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
@@ -283,12 +283,12 @@ const responsesStructure = {
                     {
                         "done": false,
                         "ask": "Which Certification would you like to begin with??",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "And when was this? e.g.: september, 2018",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
@@ -319,12 +319,12 @@ const responsesStructure = {
                     {
                         "done": false,
                         "ask": "What was the publication that you would like to give?",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "And when was this? e.g.: september, 2018",
-                        "quick_replies": null
+                        "quick_replies": []
                     },
                     {
                         "done": false,
