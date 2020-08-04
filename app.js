@@ -134,6 +134,13 @@ const handleMessage = (messageEvent) => {
         }
     }
 
+    console.log('**SECTION NAME CHECK:  ', currentSectionName);
+    console.log('**QUESTION CHECK:  ', currentQuestion);
+    console.log('**QUICK REPLY CHECK:  ', currentQuickReplies);
+    console.log('**SECTION CHECK:  ', currentSection);
+
+    console.log('STRUCTURE CHECK', responseStructure[currentSectionName])
+
     // check if we have reached the end or not
     if (!toPrepareResume) {
         // section traversal
@@ -174,10 +181,10 @@ const handleMessage = (messageEvent) => {
             }
         });
     }
-    console.log('SECTION NAME CHECK:  ', currentSectionName);
-    console.log('QUESTION CHECK:  ', currentQuestion);
-    console.log('QUICK REPLY CHECK:  ', currentQuickReplies);
-    console.log('SECTION CHECK:  ', currentSection);
+    // console.log('SECTION NAME CHECK:  ', currentSectionName);
+    // console.log('QUESTION CHECK:  ', currentQuestion);
+    // console.log('QUICK REPLY CHECK:  ', currentQuickReplies);
+    // console.log('SECTION CHECK:  ', currentSection);
 
     let response;
 
