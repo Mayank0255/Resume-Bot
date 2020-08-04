@@ -115,6 +115,7 @@ const handleMessage = (messageEvent) => {
     if (message.quick_reply) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             responseStructure[currentSectionName].questions[0].asked = false
+            connectedUsers[senderID][0].status = false
             console.log('LINE 118:', message.quick_reply)
         } else if (checkList.includes(currentSectionName)) {
             console.log('LINE 120:', message.quick_reply)
@@ -139,7 +140,7 @@ const handleMessage = (messageEvent) => {
     console.log('**QUICK REPLY CHECK:  ', currentQuickReplies);
     console.log('**SECTION CHECK:  ', currentSection);
 
-    console.log('STRUCTURE CHECK', responseStructure[currentSectionName])
+    console.log('**STRUCTURE CHECK', responseStructure[currentSectionName])
 
     // check if we have reached the end or not
     if (!toPrepareResume) {
@@ -185,6 +186,7 @@ const handleMessage = (messageEvent) => {
     console.log('QUESTION CHECK:  ', currentQuestion);
     console.log('QUICK REPLY CHECK:  ', currentQuickReplies);
     console.log('SECTION CHECK:  ', currentSection);
+    console.log('**STRUCTURE CHECK', responseStructure[currentSectionName])
 
     let response;
 
