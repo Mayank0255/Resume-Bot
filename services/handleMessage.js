@@ -57,7 +57,7 @@ const handleMessage = (messageEvent) => {
 
     let toPrepareResume = false;
 
-    if (message.quick_reply) {
+    if (message.quick_reply && (senderID in connectedUsers)) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             delete connectedUsers[senderID];
             userExists = false
@@ -79,7 +79,7 @@ const handleMessage = (messageEvent) => {
     }
 
     // check if we have reached the end or not
-    if (!toPrepareResume && userExists) {
+    if (!toPrepareResume && (senderID in connectedUsers)) {
         // section traversal
         connectedUsers[senderID].order.some(section => {
             if (!section.status) {
