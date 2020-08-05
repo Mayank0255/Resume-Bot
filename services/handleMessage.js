@@ -36,9 +36,6 @@ const handleMessage = (messageEvent) => {
             structure: responseStructure
         };
     }
-    /**
-     * 5. extract the data that you will be using only
-     */
 
     let checkList = {
         'education': 2,
