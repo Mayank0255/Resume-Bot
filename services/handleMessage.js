@@ -51,10 +51,12 @@ const handleMessage = (messageEvent) => {
         'publications': 8
     }
 
+    // let connectedUserStructure = connectedUsers[senderID].structure;
+    // let connectedUserOrder = connectedUsers[senderID].order;
+
     if (message.quick_reply) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
-            connectedUsers[senderID].structure[currentSectionName].questions[0].asked = false
-            connectedUsers[senderID].order[0].status = false
+            delete connectedUsers[senderID];
         } else if (currentSectionName in checkList) {
             if (typeof connectedUsers[senderID].structure[currentSectionName].questions[0].question === 'string' && connectedUsers[senderID].structure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
                 connectedUsers[senderID].structure[currentSectionName].questions[0].asked = true
