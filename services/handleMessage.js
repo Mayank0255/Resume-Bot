@@ -52,8 +52,8 @@ const handleMessage = (messageEvent) => {
         'publications': 8
     }
 
-    // let connectedUserStructure = connectedUsers[senderID].structure;
-    // let connectedUserOrder = connectedUsers[senderID].order;
+    let connectedUserStructure = connectedUsers[senderID].structure;
+    let connectedUserOrder = connectedUsers[senderID].order;
 
     let toPrepareResume = false;
 
