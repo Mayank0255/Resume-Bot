@@ -24,7 +24,7 @@ let currentSection = {};
 let currentSectionName = '';
 let currentQuestion = '';
 let currentQuickReplies = [];
-let toPrepareResume = false;
+let userExists = false;
 
 // Handles messages events
 const handleMessage = (messageEvent) => {
@@ -36,6 +36,7 @@ const handleMessage = (messageEvent) => {
             order: responseOrder,
             structure: responseStructure
         };
+        userExists = true
     }
     /**
      * 5. extract the data that you will be using only
@@ -54,9 +55,12 @@ const handleMessage = (messageEvent) => {
     // let connectedUserStructure = connectedUsers[senderID].structure;
     // let connectedUserOrder = connectedUsers[senderID].order;
 
+    let toPrepareResume = false;
+
     if (message.quick_reply) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             delete connectedUsers[senderID];
+            userExists = false
         } else if (currentSectionName in checkList) {
             if (typeof connectedUsers[senderID].structure[currentSectionName].questions[0].question === 'string' && connectedUsers[senderID].structure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
                 connectedUsers[senderID].structure[currentSectionName].questions[0].asked = true
@@ -75,7 +79,7 @@ const handleMessage = (messageEvent) => {
     }
 
     // check if we have reached the end or not
-    if (!toPrepareResume) {
+    if (!toPrepareResume && userExists) {
         // section traversal
         connectedUsers[senderID].order.some(section => {
             if (!section.status) {
