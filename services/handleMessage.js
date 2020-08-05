@@ -24,7 +24,6 @@ let currentSection = {};
 let currentSectionName = '';
 let currentQuestion = '';
 let currentQuickReplies = [];
-let userExists = false;
 
 // Handles messages events
 const handleMessage = (messageEvent) => {
@@ -36,7 +35,6 @@ const handleMessage = (messageEvent) => {
             order: responseOrder,
             structure: responseStructure
         };
-        userExists = true
     }
     /**
      * 5. extract the data that you will be using only
@@ -60,16 +58,15 @@ const handleMessage = (messageEvent) => {
     if (message.quick_reply && (senderID in connectedUsers)) {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             delete connectedUsers[senderID];
-            userExists = false
         } else if (currentSectionName in checkList) {
-            if (typeof connectedUsers[senderID].structure[currentSectionName].questions[0].question === 'string' && connectedUsers[senderID].structure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
-                connectedUsers[senderID].structure[currentSectionName].questions[0].asked = true
-                connectedUsers[senderID].structure[currentSectionName].questions[1].asked = true
-                connectedUsers[senderID].order[checkList[currentSectionName]].status = true
-            } else if (connectedUsers[senderID].structure[currentSectionName].questions[1].question[connectedUsers[senderID].structure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
-                connectedUsers[senderID].structure[currentSectionName].questions[1].asked = false;
-                connectedUsers[senderID].order[checkList[currentSectionName]].status = false
-                connectedUsers[senderID].structure[currentSectionName].questions[1].question.forEach(question => {
+            if (typeof connectedUserStructure[currentSectionName].questions[0].question === 'string' && connectedUserStructure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
+                connectedUserStructure[currentSectionName].questions[0].asked = true
+                connectedUserStructure[currentSectionName].questions[1].asked = true
+                connectedUserOrder[checkList[currentSectionName]].status = true
+            } else if (connectedUserStructure[currentSectionName].questions[1].question[connectedUserStructure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
+                connectedUserStructure[currentSectionName].questions[1].asked = false;
+                connectedUserOrder[checkList[currentSectionName]].status = false
+                connectedUserStructure[currentSectionName].questions[1].question.forEach(question => {
                     question.done = false
                 });
             }
@@ -81,9 +78,9 @@ const handleMessage = (messageEvent) => {
     // check if we have reached the end or not
     if (!toPrepareResume && (senderID in connectedUsers)) {
         // section traversal
-        connectedUsers[senderID].order.some(section => {
+        connectedUserOrder.some(section => {
             if (!section.status) {
-                currentSection = connectedUsers[senderID].structure[section.type];
+                currentSection = connectedUserStructure[section.type];
                 currentSectionName = section.type;
 
                 // questions traversal
