@@ -27,7 +27,6 @@ let currentQuickReplies = [];
 
 // Handles messages events
 const handleMessage = (messageEvent) => {
-    const message = messageEvent.message;
     const senderID = messageEvent.sender.id;
 
     if (!(senderID in connectedUsers)) {
@@ -36,6 +35,9 @@ const handleMessage = (messageEvent) => {
             structure: responseStructure
         };
     }
+
+    let connectedUser = connectedUsers[senderID];
+    const message = messageEvent.message;
 
     let checkList = {
         'education': 2,
@@ -50,8 +52,8 @@ const handleMessage = (messageEvent) => {
     let toPrepareResume = false;
 
     if (message.quick_reply && (senderID in connectedUsers)) {
-        let { questions } = connectedUsers[senderID].structure[currentSectionName];
-        let connectedUserOrder = connectedUsers[senderID].order[checkList[currentSectionName]];
+        let { questions } = connectedUser.structure[currentSectionName];
+        let connectedUserOrder = connectedUser.order[checkList[currentSectionName]];
 
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             delete connectedUsers[senderID];
@@ -75,10 +77,10 @@ const handleMessage = (messageEvent) => {
     // check if we have reached the end or not
     if (!toPrepareResume && (senderID in connectedUsers)) {
         // section traversal
-        connectedUsers[senderID].order.some(section => {
+        connectedUser.order.some(section => {
             if (!section.status) {
-                currentSection = connectedUsers[senderID].structure[section.type];
                 currentSectionName = section.type;
+                currentSection = connectedUser.structure[currentSectionName];
 
                 // questions traversal
                 currentSection.questions.some(question => {
