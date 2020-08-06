@@ -120,19 +120,7 @@ const handleMessage = (messageEvent) => {
     if (message.text || message.quick_reply) {
         // with quick reply
         if (currentQuickReplies.length > 0) {
-            // let quickReplies = []
-            response = {
-                text: currentQuestion,
-                quick_replies: []
-            };
-
-            for (let quickReply of currentQuickReplies) {
-                response["quick_replies"].push({
-                    content_type: "text",
-                    title: quickReply,
-                    payload: quickReply
-                });
-            }
+            response = genQuickReplies(currentQuestion, currentQuickReplies);
             // without quick reply
         } else if (currentQuickReplies.length === 0) {
             response = {
@@ -169,6 +157,23 @@ const handleMessage = (messageEvent) => {
     }
 
     callSendAPI(senderID, response);
+}
+
+const genQuickReplies = (question, quickReplies) => {
+    const response = {
+        text: question,
+        quick_replies: []
+    };
+
+    for (let quickReply of quickReplies) {
+        response["quick_replies"].push({
+            content_type: "text",
+            title: quickReply,
+            payload: quickReply
+        });
+    }
+
+    return response;
 }
 
 module.exports = handleMessage
