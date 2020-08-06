@@ -115,9 +115,9 @@ const handleMessage = (messageEvent) => {
         });
     }
 
-    if (message.text && message.quick_reply) {
+    if (message.text && currentQuickReplies.length > 0) {
         genQuickReplies(senderID, currentQuestion, currentQuickReplies);
-    } else if (message.text && !message.quick_reply) {
+    } else if (message.text && currentQuickReplies.length === 0) {
         genQuestion(senderID, currentQuestion);
     } else if (message.attachments) {
         genAttachment(senderID, message.attachments[0].payload.url)
