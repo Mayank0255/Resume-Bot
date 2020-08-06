@@ -47,23 +47,23 @@ const handleMessage = (messageEvent) => {
         'publications': 8
     }
 
-    let connectedUserOrder = connectedUsers[senderID].order;
-    let connectedUserStructure = connectedUsers[senderID].structure[currentSectionName];
-
     let toPrepareResume = false;
 
     if (message.quick_reply && (senderID in connectedUsers)) {
+        let { questions } = connectedUsers[senderID].structure[currentSectionName];
+        let connectedUserOrder = connectedUsers[senderID].order[checkList[currentSectionName]];
+
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             delete connectedUsers[senderID];
         } else if (currentSectionName in checkList) {
-            if (typeof connectedUserStructure.questions[0].question === 'string' && connectedUserStructure.questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
-                connectedUserStructure.questions[0].asked = true
-                connectedUserStructure.questions[1].asked = true
-                connectedUserOrder[checkList[currentSectionName]].status = true
-            } else if (connectedUserStructure.questions[1].question[connectedUserStructure.questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
-                connectedUserStructure.questions[1].asked = false;
-                connectedUserOrder[checkList[currentSectionName]].status = false
-                connectedUserStructure.questions[1].question.forEach(question => {
+            if (typeof questions[0].question === 'string' && questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
+                questions[0].asked = true
+                questions[1].asked = true
+                connectedUserOrder.status = true
+            } else if (questions[1].question[questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
+                questions[1].asked = false;
+                connectedUserOrder.status = false
+                questions[1].question.forEach(question => {
                     question.done = false
                 });
             }
@@ -75,7 +75,7 @@ const handleMessage = (messageEvent) => {
     // check if we have reached the end or not
     if (!toPrepareResume && (senderID in connectedUsers)) {
         // section traversal
-        connectedUserOrder.some(section => {
+        connectedUsers[senderID].order.some(section => {
             if (!section.status) {
                 currentSection = connectedUsers[senderID].structure[section.type];
                 currentSectionName = section.type;
