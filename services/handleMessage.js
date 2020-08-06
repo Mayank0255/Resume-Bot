@@ -81,7 +81,11 @@ const handleMessage = (messageEvent) => {
 
     // Resume file creation
     if (message.text && !message.quick_reply && currentSectionName !== '') {
-
+        console.log('RESPONSE CHECK:', message.text);
+        console.log('SECTION NAME CHECK:', currentSectionName);
+        console.log('QUICK REPLIES CHECK:', currentQuickReplies);
+        console.log('QUESTION CHECK:', currentQuestion);
+        console.log('SECTION CHECK:', currentSection);
     }
 
     // Response Structure Traversal
