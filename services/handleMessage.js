@@ -32,7 +32,7 @@ let currentQuickReplies = [];
 // Handles messages events
 const handleMessage = (messageEvent) => {
     const senderID = messageEvent.sender.id;
-    var folderPath = `../public/uploaded/${senderID}`;
+    // var folderPath = `../public/uploaded/${senderID}`;
 
     if (!(senderID in connectedUsers)) {
         connectedUsers[senderID] = {
@@ -121,12 +121,11 @@ const handleMessage = (messageEvent) => {
             // }
             if (currentQuestion === currentSection.questions[0].question) {
                 console.log('here');
-                const resume = fs.createWriteStream(folderPath + '/main.tex');
-                resume.write("Hi, JournalDEV Users. \n");
-                resume.write("Thank You.");
+                const resume = fs.createWriteStream('main.tex');
+                resume.write("\\\\documentclass{article}");
                 resume.end();
 
-                fs.readFile(`${folderPath}/main.tex`, 'utf8', (err, data) => {
+                fs.readFile(`main.tex`, 'utf8', (err, data) => {
                     console.log(data);
                 });
             }
