@@ -115,7 +115,7 @@ const handleMessage = (messageEvent) => {
         });
     }
 
-    if (message.quick_reply) {
+    if (message.text && message.quick_reply) {
         genQuickReplies(senderID, currentQuestion, currentQuickReplies);
     } else if (message.text && !message.quick_reply) {
         genQuestion(senderID, currentQuestion);
