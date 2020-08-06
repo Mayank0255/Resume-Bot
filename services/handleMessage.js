@@ -90,34 +90,45 @@ const handleMessage = (messageEvent) => {
         let currentSection = connectedUser.structure[currentSectionName];
 
         if (currentSectionName === 'header') {
-            switch (currentQuestion) {
-                case currentSection.questions[0].question:
-                    if (!fs.existsSync(folderPath)){
-                        fs.mkdirSync(folderPath);
-                    }
-
-                    const resume = fs.createWriteStream(folderPath + '/main.tex');
-                    resume.write("Hi, JournalDEV Users. \n");
-                    resume.write("Thank You.");
-                    resume.end();
-
-                    fs.readFile(`${folderPath}/main.tex`, 'utf8', (err, data) => {
-                        console.log(data);
-                    });
-                    break
-                // case currentSection.questions[1].question:
-                //     break
-                // case currentSection.questions[2].question:
-                //     break
-                // case currentSection.questions[3].question:
-                //     break
-                // case currentSection.questions[4].question:
-                //     break
-                default:
-                    break
-            }
+            // switch (currentQuestion) {
+            //     case currentSection.questions[0].question:
+            //         if (!fs.existsSync(folderPath)){
+            //             fs.mkdirSync(folderPath);
+            //         }
+            //
+            //         const resume = fs.createWriteStream(folderPath + '/main.tex');
+            //         resume.write("Hi, JournalDEV Users. \n");
+            //         resume.write("Thank You.");
+            //         resume.end();
+            //
+            //         fs.readFile(`${folderPath}/main.tex`, 'utf8', (err, data) => {
+            //             console.log(data);
+            //         });
+            //         break
+            //     // case currentSection.questions[1].question:
+            //     //     break
+            //     // case currentSection.questions[2].question:
+            //     //     break
+            //     // case currentSection.questions[3].question:
+            //     //     break
+            //     // case currentSection.questions[4].question:
+            //     //     break
+            //     default:
+            //         break
+            // }
             if (currentQuestion === currentSection.questions[0].question) {
+                if (!fs.existsSync(folderPath)){
+                    fs.mkdirSync(folderPath);
+                }
 
+                const resume = fs.createWriteStream(folderPath + '/main.tex');
+                resume.write("Hi, JournalDEV Users. \n");
+                resume.write("Thank You.");
+                resume.end();
+
+                fs.readFile(`${folderPath}/main.tex`, 'utf8', (err, data) => {
+                    console.log(data);
+                });
             }
         }
     }
