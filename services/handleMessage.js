@@ -24,7 +24,6 @@ const {
 
 var connectedUsers = {}
 
-let currentSection = {};
 let currentSectionName = '';
 let currentQuestion = '';
 let currentQuickReplies = [];
@@ -53,6 +52,8 @@ const handleMessage = (messageEvent) => {
         'publications': 8
     }
 
+    let portfolioLink = ''
+    let linkedinLink = ''
     let toPrepareResume = false;
 
     // pointer manipulation based on user reply
@@ -62,6 +63,12 @@ const handleMessage = (messageEvent) => {
 
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             delete connectedUsers[senderID];
+        } else if (currentSectionName === 'header') {
+            if (questions[3].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
+                linkedinLink = ''
+            } else if (questions[4].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
+                portfolioLink = ''
+            }
         } else if (currentSectionName in checkList) {
             if (typeof questions[0].question === 'string' && questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
                 questions[0].asked = true
@@ -83,9 +90,14 @@ const handleMessage = (messageEvent) => {
     if (message.text && !message.quick_reply && currentSectionName !== '') {
         console.log('RESPONSE CHECK:', message.text);
         console.log('SECTION NAME CHECK:', currentSectionName);
-        console.log('QUICK REPLIES CHECK:', currentQuickReplies);
         console.log('QUESTION CHECK:', currentQuestion);
-        console.log('SECTION CHECK:', currentSection);
+        if (currentQuestion === 'Can you give us a link to your Linkedin profile?') {
+            linkedinLink = message.text
+        } else if (currentQuestion === 'What\'s the link to your portfolio?') {
+            portfolioLink = message.text
+        }
+        console.log('LINKEDIN LINK CHECK', linkedinLink)
+        console.log('PORTFOLIO LINK CHECK', portfolioLink)
     }
 
     // Response Structure Traversal
@@ -93,7 +105,7 @@ const handleMessage = (messageEvent) => {
         connectedUser.order.some(section => {
             if (!section.status) {
                 currentSectionName = section.type;
-                currentSection = connectedUser.structure[currentSectionName];
+                let currentSection = connectedUser.structure[currentSectionName];
 
                 // questions traversal
                 currentSection.questions.some(question => {
