@@ -1,3 +1,4 @@
+const fs = require('fs');
 const responseOrder = require('../utils/responseOrder');
 const responseStructure = require('../utils/responseStructure');
 const {
@@ -52,8 +53,6 @@ const handleMessage = (messageEvent) => {
         'publications': 8
     }
 
-    let portfolioLink = ''
-    let linkedinLink = ''
     let toPrepareResume = false;
 
     // pointer manipulation based on user reply
@@ -82,20 +81,45 @@ const handleMessage = (messageEvent) => {
 
     // Resume file creation
     if (message.text && !message.quick_reply && currentSectionName !== '') {
-        let { questions } = connectedUser.structure[currentSectionName];
-        let connectedUserOrder = connectedUser.order[checkList[currentSectionName]];
-
-        if (currentQuestion === questions[3].question) {
-            linkedinLink = message.text
-        } else if (currentQuestion === questions[4].question) {
-            portfolioLink = message.text
-        }
+        const folderPath = `../public/uploaded/${senderID}_${message.text}`;
 
         console.log('RESPONSE CHECK:', message.text);
         console.log('SECTION NAME CHECK:', currentSectionName);
         console.log('QUESTION CHECK:', currentQuestion);
-        console.log('LINKEDIN LINK CHECK', linkedinLink)
-        console.log('PORTFOLIO LINK CHECK', portfolioLink)
+
+        let currentSection = connectedUser.structure[currentSectionName];
+
+        if (currentSectionName === 'header') {
+            switch (currentQuestion) {
+                case currentSection.questions[0].question:
+                    if (!fs.existsSync(folderPath)){
+                        fs.mkdirSync(folderPath);
+                    }
+
+                    const resume = fs.createWriteStream(folderPath + '/main.tex');
+                    resume.write("Hi, JournalDEV Users. \n");
+                    resume.write("Thank You.");
+                    resume.end();
+
+                    fs.readFile(`${folderPath}/main.tex`, 'utf8', (err, data) => {
+                        console.log(data);
+                    });
+                    break
+                // case currentSection.questions[1].question:
+                //     break
+                // case currentSection.questions[2].question:
+                //     break
+                // case currentSection.questions[3].question:
+                //     break
+                // case currentSection.questions[4].question:
+                //     break
+                default:
+                    break
+            }
+            if (currentQuestion === currentSection.questions[0].question) {
+
+            }
+        }
     }
 
     // Response Structure Traversal
