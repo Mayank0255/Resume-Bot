@@ -251,11 +251,6 @@ const responsesStructure = {
                     },
                     {
                         "done": false,
-                        "ask": "And when was this? e.g.: september, 2018",
-                        "quick_replies": []
-                    },
-                    {
-                        "done": false,
                         "ask": "Do you want to add another achievement?",
                         "quick_replies": [
                             "Yes, I do",
@@ -287,11 +282,6 @@ const responsesStructure = {
                     },
                     {
                         "done": false,
-                        "ask": "And when was this? e.g.: september, 2018",
-                        "quick_replies": []
-                    },
-                    {
-                        "done": false,
                         "ask": "Do you want to give another certification?",
                         "quick_replies": [
                             "Yes, I do",
@@ -319,11 +309,6 @@ const responsesStructure = {
                     {
                         "done": false,
                         "ask": "What was the publication that you would like to give?",
-                        "quick_replies": []
-                    },
-                    {
-                        "done": false,
-                        "ask": "And when was this? e.g.: september, 2018",
                         "quick_replies": []
                     },
                     {

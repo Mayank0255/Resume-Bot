@@ -55,6 +55,7 @@ const handleMessage = (messageEvent) => {
 
     let toPrepareResume = false;
 
+    // pointer manipulation based on user reply
     if (message.quick_reply && (senderID in connectedUsers)) {
         let { questions } = connectedUser.structure[currentSectionName];
         let connectedUserOrder = connectedUser.order[checkList[currentSectionName]];
@@ -78,9 +79,13 @@ const handleMessage = (messageEvent) => {
         }
     }
 
-    // check if we have reached the end or not
+    // Resume file creation
+    if (message.text && !message.quick_reply && currentSectionName !== '') {
+
+    }
+
+    // Response Structure Traversal
     if (!toPrepareResume && (senderID in connectedUsers)) {
-        // section traversal
         connectedUser.order.some(section => {
             if (!section.status) {
                 currentSectionName = section.type;
@@ -119,6 +124,7 @@ const handleMessage = (messageEvent) => {
         });
     }
 
+    // Chat Bot Response
     if (message.text && currentQuickReplies.length > 0) {
         genQuickReplies(senderID, currentQuestion, currentQuickReplies);
     } else if (message.text && currentQuickReplies.length === 0) {
