@@ -1,6 +1,10 @@
 const responseOrder = require('../utils/responseOrder');
 const responseStructure = require('../utils/responseStructure');
-const callSendAPI = require('./callSendAPI');
+const {
+    genQuestion,
+    genQuickReplies,
+    genAttachment
+} = require('./genMessages');
 
 
 /**
@@ -122,61 +126,6 @@ const handleMessage = (messageEvent) => {
     } else if (message.attachments) {
         genAttachment(senderID, message.attachments[0].payload.url)
     }
-}
-
-const genQuickReplies = (senderID, question, quickReplies) => {
-    const response = {
-        text: question,
-        quick_replies: []
-    };
-
-    for (let quickReply of quickReplies) {
-        response["quick_replies"].push({
-            content_type: "text",
-            title: quickReply,
-            payload: quickReply
-        });
-    }
-
-    callSendAPI(senderID, response);
-}
-
-const genQuestion = (senderID, question) => {
-    const response = {
-        'text': question
-    };
-
-    callSendAPI(senderID, response);
-}
-
-const genAttachment = (senderID, attachment_url) => {
-    const response = {
-        'attachment': {
-            'type': 'template',
-            'payload': {
-                'template_type': 'generic',
-                'elements': [{
-                    'title': 'Is this the right picture?',
-                    'subtitle': 'Tap a button to answer.',
-                    'image_url': attachment_url,
-                    'buttons': [
-                        {
-                            'type': 'postback',
-                            'title': 'Yes!',
-                            'payload': 'yes',
-                        },
-                        {
-                            'type': 'postback',
-                            'title': 'No!',
-                            'payload': 'no',
-                        }
-                    ],
-                }]
-            }
-        }
-    }
-
-    callSendAPI(senderID, response);
 }
 
 module.exports = handleMessage
