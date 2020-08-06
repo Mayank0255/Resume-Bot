@@ -47,8 +47,8 @@ const handleMessage = (messageEvent) => {
         'publications': 8
     }
 
-    let connectedUserStructure = connectedUsers[senderID].structure;
     let connectedUserOrder = connectedUsers[senderID].order;
+    let connectedUserStructure = connectedUsers[senderID].structure[currentSectionName];
 
     let toPrepareResume = false;
 
@@ -56,14 +56,14 @@ const handleMessage = (messageEvent) => {
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             delete connectedUsers[senderID];
         } else if (currentSectionName in checkList) {
-            if (typeof connectedUserStructure[currentSectionName].questions[0].question === 'string' && connectedUserStructure[currentSectionName].questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
-                connectedUserStructure[currentSectionName].questions[0].asked = true
-                connectedUserStructure[currentSectionName].questions[1].asked = true
+            if (typeof connectedUserStructure.questions[0].question === 'string' && connectedUserStructure.questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
+                connectedUserStructure.questions[0].asked = true
+                connectedUserStructure.questions[1].asked = true
                 connectedUserOrder[checkList[currentSectionName]].status = true
-            } else if (connectedUserStructure[currentSectionName].questions[1].question[connectedUserStructure[currentSectionName].questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
-                connectedUserStructure[currentSectionName].questions[1].asked = false;
+            } else if (connectedUserStructure.questions[1].question[connectedUserStructure.questions[1].question.length - 1].ask === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
+                connectedUserStructure.questions[1].asked = false;
                 connectedUserOrder[checkList[currentSectionName]].status = false
-                connectedUserStructure[currentSectionName].questions[1].question.forEach(question => {
+                connectedUserStructure.questions[1].question.forEach(question => {
                     question.done = false
                 });
             }
@@ -77,7 +77,7 @@ const handleMessage = (messageEvent) => {
         // section traversal
         connectedUserOrder.some(section => {
             if (!section.status) {
-                currentSection = connectedUserStructure[section.type];
+                currentSection = connectedUsers[senderID].structure[section.type];
                 currentSectionName = section.type;
 
                 // questions traversal
