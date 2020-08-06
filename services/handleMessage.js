@@ -31,6 +31,7 @@ let currentQuickReplies = [];
 
 // Handles messages events
 const handleMessage = (messageEvent) => {
+    var folderPath = `../public/uploaded/${senderID}`;
     const senderID = messageEvent.sender.id;
 
     if (!(senderID in connectedUsers)) {
@@ -38,6 +39,10 @@ const handleMessage = (messageEvent) => {
             order: responseOrder,
             structure: responseStructure
         };
+    }
+
+    if (!fs.existsSync(folderPath)){
+        fs.mkdirSync(folderPath);
     }
 
     let connectedUser = connectedUsers[senderID];
@@ -81,8 +86,6 @@ const handleMessage = (messageEvent) => {
 
     // Resume file creation
     if (message.text && !message.quick_reply && currentSectionName !== '') {
-        const folderPath = `../public/uploaded/${senderID}_${message.text}`;
-
         console.log('RESPONSE CHECK:', message.text);
         console.log('SECTION NAME CHECK:', currentSectionName);
         console.log('QUESTION CHECK:', currentQuestion);
@@ -117,10 +120,7 @@ const handleMessage = (messageEvent) => {
             //         break
             // }
             if (currentQuestion === currentSection.questions[0].question) {
-                if (!fs.existsSync(folderPath)){
-                    fs.mkdirSync(folderPath);
-                }
-
+                console.log('here');
                 const resume = fs.createWriteStream(folderPath + '/main.tex');
                 resume.write("Hi, JournalDEV Users. \n");
                 resume.write("Thank You.");
