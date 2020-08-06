@@ -63,12 +63,6 @@ const handleMessage = (messageEvent) => {
 
         if (currentSectionName === 'begin' && message.quick_reply.payload === currentQuickReplies[1]) {
             delete connectedUsers[senderID];
-        } else if (currentSectionName === 'header') {
-            if (questions[3].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
-                linkedinLink = ''
-            } else if (questions[4].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[0]) {
-                portfolioLink = ''
-            }
         } else if (currentSectionName in checkList) {
             if (typeof questions[0].question === 'string' && questions[0].question === currentQuestion && message.quick_reply.payload === currentQuickReplies[1]) {
                 questions[0].asked = true
@@ -88,14 +82,18 @@ const handleMessage = (messageEvent) => {
 
     // Resume file creation
     if (message.text && !message.quick_reply && currentSectionName !== '') {
+        let { questions } = connectedUser.structure[currentSectionName];
+        let connectedUserOrder = connectedUser.order[checkList[currentSectionName]];
+
+        if (currentQuestion === questions[3].question) {
+            linkedinLink = message.text
+        } else if (currentQuestion === questions[4].question) {
+            portfolioLink = message.text
+        }
+
         console.log('RESPONSE CHECK:', message.text);
         console.log('SECTION NAME CHECK:', currentSectionName);
         console.log('QUESTION CHECK:', currentQuestion);
-        if (currentQuestion === 'Can you give us a link to your Linkedin profile?') {
-            linkedinLink = message.text
-        } else if (currentQuestion === 'What\'s the link to your portfolio?') {
-            portfolioLink = message.text
-        }
         console.log('LINKEDIN LINK CHECK', linkedinLink)
         console.log('PORTFOLIO LINK CHECK', portfolioLink)
     }
