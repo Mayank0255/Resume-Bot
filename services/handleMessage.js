@@ -115,51 +115,20 @@ const handleMessage = (messageEvent) => {
         });
     }
 
-    let response;
-
     if (message.text || message.quick_reply) {
         // with quick reply
         if (currentQuickReplies.length > 0) {
-            response = genQuickReplies(currentQuestion, currentQuickReplies);
+            genQuickReplies(senderID, currentQuestion, currentQuickReplies);
             // without quick reply
         } else if (currentQuickReplies.length === 0) {
-            response = {
-                'text': currentQuestion
-            }
+            genQuestion(senderID, currentQuestion);
         }
     } else if (message.attachments) {
-        let attachment_url = message.attachments[0].payload.url;
-        response = {
-            'attachment': {
-                'type': 'template',
-                'payload': {
-                    'template_type': 'generic',
-                    'elements': [{
-                        'title': 'Is this the right picture?',
-                        'subtitle': 'Tap a button to answer.',
-                        'image_url': attachment_url,
-                        'buttons': [
-                            {
-                                'type': 'postback',
-                                'title': 'Yes!',
-                                'payload': 'yes',
-                            },
-                            {
-                                'type': 'postback',
-                                'title': 'No!',
-                                'payload': 'no',
-                            }
-                        ],
-                    }]
-                }
-            }
-        }
+        genAttachment(senderID, message.attachments[0].payload.url)
     }
-
-    callSendAPI(senderID, response);
 }
 
-const genQuickReplies = (question, quickReplies) => {
+const genQuickReplies = (senderID, question, quickReplies) => {
     const response = {
         text: question,
         quick_replies: []
@@ -173,7 +142,45 @@ const genQuickReplies = (question, quickReplies) => {
         });
     }
 
-    return response;
+    callSendAPI(senderID, response);
+}
+
+const genQuestion = (senderID, question) => {
+    const response = {
+        'text': question
+    };
+
+    callSendAPI(senderID, response);
+}
+
+const genAttachment = (senderID, attachment_url) => {
+    const response = {
+        'attachment': {
+            'type': 'template',
+            'payload': {
+                'template_type': 'generic',
+                'elements': [{
+                    'title': 'Is this the right picture?',
+                    'subtitle': 'Tap a button to answer.',
+                    'image_url': attachment_url,
+                    'buttons': [
+                        {
+                            'type': 'postback',
+                            'title': 'Yes!',
+                            'payload': 'yes',
+                        },
+                        {
+                            'type': 'postback',
+                            'title': 'No!',
+                            'payload': 'no',
+                        }
+                    ],
+                }]
+            }
+        }
+    }
+
+    callSendAPI(senderID, response);
 }
 
 module.exports = handleMessage
