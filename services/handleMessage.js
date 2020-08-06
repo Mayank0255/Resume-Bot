@@ -115,14 +115,10 @@ const handleMessage = (messageEvent) => {
         });
     }
 
-    if (message.text || message.quick_reply) {
-        // with quick reply
-        if (currentQuickReplies.length > 0) {
-            genQuickReplies(senderID, currentQuestion, currentQuickReplies);
-            // without quick reply
-        } else if (currentQuickReplies.length === 0) {
-            genQuestion(senderID, currentQuestion);
-        }
+    if (message.quick_reply) {
+        genQuickReplies(senderID, currentQuestion, currentQuickReplies);
+    } else if (message.text && !message.quick_reply) {
+        genQuestion(senderID, currentQuestion);
     } else if (message.attachments) {
         genAttachment(senderID, message.attachments[0].payload.url)
     }
