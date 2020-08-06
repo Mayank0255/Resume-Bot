@@ -32,7 +32,7 @@ let currentQuickReplies = [];
 // Handles messages events
 const handleMessage = (messageEvent) => {
     const senderID = messageEvent.sender.id;
-    var folderPath = `./public/uploaded/${senderID}`;
+    var folderPath = `hello`;
 
     if (!(senderID in connectedUsers)) {
         connectedUsers[senderID] = {
