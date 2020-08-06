@@ -41,9 +41,9 @@ const handleMessage = (messageEvent) => {
         };
     }
 
-    if (!fs.existsSync(folderPath)){
-        fs.mkdirSync(folderPath);
-    }
+    // if (!fs.existsSync(folderPath)){
+    //     fs.mkdirSync(folderPath);
+    // }
 
     let connectedUser = connectedUsers[senderID];
     const message = messageEvent.message;
