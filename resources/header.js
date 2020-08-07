@@ -1,4 +1,4 @@
-const firstQuestion = name => {
+const setName = name => {
     return `
     \\documentclass{article}
     \\usepackage{scimisc-cv}
@@ -12,6 +12,30 @@ const firstQuestion = name => {
     \\cvname{${name}}`
 }
 
+const setEmail = email => {
+    return `
+    ${email} \\cvinfosep`
+}
+
+const setPhone = phone => {
+    return `
+    ${phone} \\cvinfosep`
+}
+
+const setLinkedin = link => {
+    return `
+    \\href{${link}}{LinkedIn} \\cvinfosep`
+}
+
+const setPortfolio = link => {
+    return `
+    \\href{${link}}{Portfolio}`
+}
+
 module.exports = {
-    firstQuestion
+    setName,
+    setEmail,
+    setPhone,
+    setLinkedin,
+    setPortfolio
 }

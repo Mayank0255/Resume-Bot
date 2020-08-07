@@ -8,7 +8,7 @@ const {
     genQuickReplies,
     genAttachment
 } = require('./genMessages');
-const { firstQuestion } = require('../resources/header');
+const { setName, setEmail, setPhone, setLinkedin, setPortfolio } = require('../resources/header');
 
 
 /**
@@ -109,18 +109,29 @@ const handleMessage = (messageEvent) => {
         if (currentSectionName === 'header') {
             switch (currentQuestion) {
                 case currentSection.questions[0].question:
-                    fs.appendFile(filePath, firstQuestion(message.text), err => {
+                    fs.appendFile(filePath, setName(message.text), err => {
                         if (err) throw err;
-                        console.log('Saved!');
                     });
                     break
                 case currentSection.questions[1].question:
+                    fs.appendFile(filePath, setEmail(message.text), err => {
+                        if (err) throw err;
+                    });
                     break
                 case currentSection.questions[2].question:
+                    fs.appendFile(filePath, setPhone(message.text), err => {
+                        if (err) throw err;
+                    });
                     break
                 case currentSection.questions[3].question:
+                    fs.appendFile(filePath, setLinkedin(message.text), err => {
+                        if (err) throw err;
+                    });
                     break
                 case currentSection.questions[4].question:
+                    fs.appendFile(filePath, setPortfolio(message.text), err => {
+                        if (err) throw err;
+                    });
                     break
                 default:
                     break
