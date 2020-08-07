@@ -1,4 +1,6 @@
 const fs = require('fs');
+
+const fontPackage = require('../resources/scimisc-cv');
 const responseOrder = require('../utils/responseOrder');
 const responseStructure = require('../utils/responseStructure');
 const {
@@ -93,20 +95,17 @@ const handleMessage = (messageEvent) => {
         let currentSection = connectedUser.structure[currentSectionName];
 
         const resume = fs.createWriteStream(folderPath + '/main.tex');
+        const resume_template = fs.createWriteStream(folderPath + '/scimisc-cv.sty');
+        resume_template.write(fontPackage)
+
+        fs.readFile(`${folderPath}/scimisc-cv.sty`, 'utf8', (err, data) => {
+            console.log(data);
+        });
         const filePath = folderPath + '/main.tex';
 
         if (currentSectionName === 'header') {
             switch (currentQuestion) {
                 case currentSection.questions[0].question:
-                    // resume.write(`
-                    // \\documentclass{article}\n
-                    // \\usepackage{scimisc-cv}\n
-                    // \\usepackage{hyperref}\n\n
-                    // \\title{Resume Template}\n
-                    // \\author{${message.text}}\n
-                    // \\date{May 2020}\n
-                    // \\cvname{${message.text}}\n`
-                    // );
                     fs.appendFile(filePath, `
                     \\documentclass{article}\n
                     \\usepackage{scimisc-cv}\n
@@ -119,7 +118,7 @@ const handleMessage = (messageEvent) => {
                         console.log('Saved!');
                     });
 
-                    fs.readFile(`${folderPath}/main.tex`, 'utf8', (err, data) => {
+                    fs.readFile(filePath, 'utf8', (err, data) => {
                         console.log(data);
                     });
                     break
