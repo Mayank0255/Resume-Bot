@@ -96,7 +96,15 @@ const handleMessage = (messageEvent) => {
             switch (currentQuestion) {
                 case currentSection.questions[0].question:
                     const resume = fs.createWriteStream(folderPath + '/main.tex');
-                    resume.write("\\\\documentclass{article}");
+                    resume.write(`
+                    \\\\documentclass{article}\n
+                    \\\\usepackage{scimisc-cv}\n
+                    \\\\usepackage{hyperref}\n\n
+                    \\\\title{Resume Template}\n
+                    \\\\author{${message.text}}\n
+                    \\\\date{May 2020}\n
+                    \\\\cvname{${message.text}}\n`
+                    );
                     resume.end();
 
                     fs.readFile(`${folderPath}/main.tex`, 'utf8', (err, data) => {
