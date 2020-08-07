@@ -95,9 +95,9 @@ const handleMessage = (messageEvent) => {
 
         let currentSection = connectedUser.structure[currentSectionName];
 
-        // const resume = fs.createWriteStream(folderPath + '/main.tex');
         const resume_template = fs.createWriteStream(folderPath + '/scimisc-cv.sty');
-        resume_template.write(fontPackage)
+        resume_template.write(fontPackage);
+        resume_template.end();
 
         const filePath = folderPath + '/main.tex';
         console.log(filePath);
@@ -108,19 +108,13 @@ const handleMessage = (messageEvent) => {
                     fs.appendFile(filePath, setName(message.text), err => {
                         if (err) throw err;
                     });
-                    // resume.write(setName(message.text));
-                    // resume.
-                    // fs.appendFileSync(filePath, setName(message.text), "UTF-8");
-                    // fs.writeFileSync(filePath, setName(message.text), "UTF-8", {'flags': 'a'});
                     break
                 case currentSection.questions[1].question:
                     fs.appendFile(filePath, setEmail(message.text), err => {
                         if (err) throw err;
                     });
-                    // fs.appendFileSync(filePath, setEmail(message.text), "UTF-8");
                     break
                 case currentSection.questions[2].question:
-                    // fs.appendFileSync(filePath, setPhone(message.text), "UTF-8");
                     fs.appendFile(filePath, setPhone(message.text), err => {
                         if (err) throw err;
                     });
@@ -139,7 +133,6 @@ const handleMessage = (messageEvent) => {
                     break
             }
         }
-        // resume.end();
     }
 
     // Response Structure Traversal
