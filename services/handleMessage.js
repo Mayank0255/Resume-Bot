@@ -1,4 +1,5 @@
 const fs = require('fs');
+const archiver = require('archiver');
 
 const fontPackage = require('../resources/scimisc-cv');
 const responseOrder = require('../utils/responseOrder');
@@ -35,7 +36,7 @@ let currentQuickReplies = [];
 // Handles messages events
 const handleMessage = (messageEvent) => {
     const senderID = messageEvent.sender.id;
-    var folderPath = `public/${senderID}`;
+    const folderPath = `public/${senderID}`;
 
     if (!(senderID in connectedUsers)) {
         connectedUsers[senderID] = {
@@ -85,8 +86,6 @@ const handleMessage = (messageEvent) => {
         } else if (currentSectionName === 'end' && message.quick_reply.payload === currentQuickReplies[0]) {
             fs.appendFile(folderPath + '/main.tex',
                 `
-                    \\end{itemize}
-
                 \\end{document}`,
                     err => {
                 if (err) throw err;
@@ -107,7 +106,43 @@ const handleMessage = (messageEvent) => {
     }
 
     // Response Structure Traversal
-    if (!toPrepareResume && (senderID in connectedUsers)) {
+    if (toPrepareResume) {
+        const output = fs.createWriteStream(`public/${senderID}.zip`);
+        console.log('CHECKOUT:', `public/${senderID}.zip`);
+        //Set the compression format to zip
+        const archive = archiver('zip', {
+            zlib: { level: 9 } // Sets the compression level.
+        });
+
+        // listen for all archive data to be written
+        // 'close' event is fired only when a file descriptor is involved
+        output.on('close', function() {
+            console.log(archive.pointer() + ' total bytes');
+            console.log('archiver has been finalized and the output file descriptor has closed.');
+        });
+
+        // This event is fired when the data source is drained no matter what was the data source.
+        // It is not part of this library but rather from the NodeJS Stream API.
+        // @see:   https://nodejs.org/api/stream.html#stream_event_end
+        output.on('end', function() {
+            console.log('Data has been drained');
+        });
+
+        // good practice to catch this error explicitly
+        archive.on('error', function(err) {
+            throw err;
+        });
+
+        // pipe archive data to the file
+        archive.pipe(output);
+
+        // append a file
+        archive.file(folderPath + '/main.tex', { name: 'main.tex' });
+        archive.file(folderPath + '/scimisc-cv.sty', { name: 'scimisc-cv.sty' });
+
+        // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand
+        archive.finalize();
+    } else if (!toPrepareResume && (senderID in connectedUsers)) {
         connectedUser.order.some(section => {
             if (!section.status) {
                 currentSectionName = section.type;
