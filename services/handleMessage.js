@@ -99,6 +99,7 @@ const handleMessage = (messageEvent) => {
         resume_template.write(fontPackage)
 
         const filePath = folderPath + '/main.tex';
+        console.log(filePath);
 
         fs.readFile(filePath, 'utf8', (err, data) => {
             console.log(data);
