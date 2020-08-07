@@ -14,6 +14,7 @@ const setName = name => {
 
 const setEmail = email => {
     return `
+    \\cvpersonalinfo{
     ${email} \\cvinfosep`
 }
 
