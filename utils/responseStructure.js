@@ -149,17 +149,17 @@ const responsesStructure = {
                 "question": [
                     {
                         "done": false,
-                        "ask": "What's the name of the organisation??",
-                        "quick_replies": []
-                    },
-                    {
-                        "done": false,
                         "ask": "What was your role over there? e.g.: software developer",
                         "quick_replies": []
                     },
                     {
                         "done": false,
                         "ask": "Where's the organisation located? e.g.: Gurgaon, Haryana",
+                        "quick_replies": []
+                    },
+                    {
+                        "done": false,
+                        "ask": "What's the name of the organisation??",
                         "quick_replies": []
                     },
                     {

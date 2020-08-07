@@ -4,11 +4,16 @@ const fontPackage = require('../resources/scimisc-cv');
 const { setName, setEmail, setPhone, setLinkedin, setPortfolio } = require('../resources/header');
 const { educationSection, setInstituteAndLocation, setMajor, setMarks, setStream } = require('../resources/education');
 const { skillsSection, setSkills } = require('../resources/skills');
+const { experienceSection, setRoleAndLocation, setCompanyAndTimeline, setDesc } = require('../resources/experience');
 
 let educationPush = true;
 let skillsPush = true;
+let experiencePush = true;
+
 let institute = '';
 let subSkill = '';
+let company = '';
+let role = '';
 
 const resumeConstruction = ( message, sectionName, question, section, folderPath ) => {
     const resume_template = fs.createWriteStream(folderPath + '/scimisc-cv.sty');
@@ -97,6 +102,39 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
                 break
             case section.questions[1].question[1].ask:
                 fs.appendFile(filePath, setSkills(subSkill, message), err => {
+                    if (err) throw err;
+                });
+                break
+            default:
+                break
+        }
+    } else if (sectionName === 'work experience') {
+        if (experiencePush) {
+            fs.appendFile(filePath, experienceSection, err => {
+                if (err) throw err;
+            });
+            experiencePush = false;
+        }
+
+        switch (question) {
+            case section.questions[1].question[0].ask:
+                role = message;
+                break
+            case section.questions[1].question[1].ask:
+                fs.appendFile(filePath, setRoleAndLocation(role, message), err => {
+                    if (err) throw err;
+                });
+                break
+            case section.questions[1].question[2].ask:
+                company = message;
+                break
+            case section.questions[1].question[3].ask:
+                fs.appendFile(filePath, setCompanyAndTimeline(company, message), err => {
+                    if (err) throw err;
+                });
+                break
+            case section.questions[1].question[4].ask:
+                fs.appendFile(filePath, setDesc(message), err => {
                     if (err) throw err;
                 });
                 break
