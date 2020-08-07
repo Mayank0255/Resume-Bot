@@ -83,6 +83,14 @@ const handleMessage = (messageEvent) => {
                 });
             }
         } else if (currentSectionName === 'end' && message.quick_reply.payload === currentQuickReplies[0]) {
+            fs.appendFile(folderPath + '/main.tex',
+                `
+                    \\end{itemize}
+
+                \\end{document}`,
+                    err => {
+                if (err) throw err;
+            });
             toPrepareResume = true;
         }
     }
