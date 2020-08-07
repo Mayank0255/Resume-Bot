@@ -98,38 +98,38 @@ const handleMessage = (messageEvent) => {
         const resume_template = fs.createWriteStream(folderPath + '/scimisc-cv.sty');
         resume_template.write(fontPackage)
 
-        fs.readFile(`${folderPath}/scimisc-cv.sty`, 'utf8', (err, data) => {
+        const filePath = folderPath + '/main.tex';
+
+        fs.readFile(filePath, 'utf8', (err, data) => {
             console.log(data);
         });
-        const filePath = folderPath + '/main.tex';
 
         if (currentSectionName === 'header') {
             switch (currentQuestion) {
                 case currentSection.questions[0].question:
                     fs.appendFile(filePath, `
-                    \\documentclass{article}\n
-                    \\usepackage{scimisc-cv}\n
-                    \\usepackage{hyperref}\n\n
-                    \\title{Resume Template}\n
-                    \\author{${message.text}}\n
-                    \\date{May 2020}\n
-                    \\cvname{${message.text}}\n`, err => {
+                    \\documentclass{article}
+                    \\usepackage{scimisc-cv}
+                    \\usepackage{hyperref}
+                    
+                    \\title{Resume Template}
+                    \\author{${message.text}}
+                    \\date{May 2020}
+                    
+                    %% These are custom commands defined in scimisc-cv.sty
+                    \\cvname{${message.text}}`, err => {
                         if (err) throw err;
                         console.log('Saved!');
                     });
-
-                    fs.readFile(filePath, 'utf8', (err, data) => {
-                        console.log(data);
-                    });
                     break
-                // case currentSection.questions[1].question:
-                //     break
-                // case currentSection.questions[2].question:
-                //     break
-                // case currentSection.questions[3].question:
-                //     break
-                // case currentSection.questions[4].question:
-                //     break
+                case currentSection.questions[1].question:
+                    break
+                case currentSection.questions[2].question:
+                    break
+                case currentSection.questions[3].question:
+                    break
+                case currentSection.questions[4].question:
+                    break
                 default:
                     break
             }
