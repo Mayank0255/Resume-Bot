@@ -92,20 +92,32 @@ const handleMessage = (messageEvent) => {
 
         let currentSection = connectedUser.structure[currentSectionName];
 
+        const resume = fs.createWriteStream(folderPath + '/main.tex');
+        const filePath = folderPath + '/main.tex';
+
         if (currentSectionName === 'header') {
             switch (currentQuestion) {
                 case currentSection.questions[0].question:
-                    const resume = fs.createWriteStream(folderPath + '/main.tex');
-                    resume.write(`
-                    \\\\documentclass{article}\n
-                    \\\\usepackage{scimisc-cv}\n
-                    \\\\usepackage{hyperref}\n\n
-                    \\\\title{Resume Template}\n
-                    \\\\author{${message.text}}\n
-                    \\\\date{May 2020}\n
-                    \\\\cvname{${message.text}}\n`
-                    );
-                    resume.end();
+                    // resume.write(`
+                    // \\documentclass{article}\n
+                    // \\usepackage{scimisc-cv}\n
+                    // \\usepackage{hyperref}\n\n
+                    // \\title{Resume Template}\n
+                    // \\author{${message.text}}\n
+                    // \\date{May 2020}\n
+                    // \\cvname{${message.text}}\n`
+                    // );
+                    fs.appendFile(filePath, `
+                    \\documentclass{article}\n
+                    \\usepackage{scimisc-cv}\n
+                    \\usepackage{hyperref}\n\n
+                    \\title{Resume Template}\n
+                    \\author{${message.text}}\n
+                    \\date{May 2020}\n
+                    \\cvname{${message.text}}\n`, err => {
+                        if (err) throw err;
+                        console.log('Saved!');
+                    });
 
                     fs.readFile(`${folderPath}/main.tex`, 'utf8', (err, data) => {
                         console.log(data);
@@ -123,6 +135,7 @@ const handleMessage = (messageEvent) => {
                     break
             }
         }
+        resume.end();
     }
 
     // Response Structure Traversal
