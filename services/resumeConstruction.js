@@ -3,9 +3,12 @@ const fs = require('fs');
 const fontPackage = require('../resources/scimisc-cv');
 const { setName, setEmail, setPhone, setLinkedin, setPortfolio } = require('../resources/header');
 const { educationSection, setInstituteAndLocation, setMajor, setMarks, setStream } = require('../resources/education');
+const { skillsSection, setSkills } = require('../resources/skills');
 
 let educationPush = true;
+let skillsPush = true;
 let institute = '';
+let subSkill = '';
 
 const resumeConstruction = ( message, sectionName, question, section, folderPath ) => {
     const resume_template = fs.createWriteStream(folderPath + '/scimisc-cv.sty');
@@ -74,6 +77,26 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
                 break
             case section.questions[1].question[4].ask:
                 fs.appendFile(filePath, setMarks(message), err => {
+                    if (err) throw err;
+                });
+                break
+            default:
+                break
+        }
+    } else if (sectionName === 'skills') {
+        if (skillsPush) {
+            fs.appendFile(filePath, skillsSection, err => {
+                if (err) throw err;
+            });
+            skillsPush = false;
+        }
+
+        switch (question) {
+            case section.questions[1].question[0].ask:
+                subSkill = message;
+                break
+            case section.questions[1].question[1].ask:
+                fs.appendFile(filePath, setSkills(subSkill, message), err => {
                     if (err) throw err;
                 });
                 break
