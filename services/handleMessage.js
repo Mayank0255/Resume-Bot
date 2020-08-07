@@ -109,19 +109,17 @@ const handleMessage = (messageEvent) => {
         if (currentSectionName === 'header') {
             switch (currentQuestion) {
                 case currentSection.questions[0].question:
-                    fs.appendFile(filePath, setName(message.text), err => {
-                        if (err) throw err;
-                    });
+                    fs.appendFileSync(filePath, setName(message.text), "UTF-8");
+                    // fs.writeFileSync(filePath, setName(message.text), "UTF-8", {'flags': 'a'});
                     break
                 case currentSection.questions[1].question:
-                    fs.appendFile(filePath, setEmail(message.text), err => {
-                        if (err) throw err;
-                    });
+                    fs.appendFileSync(filePath, setEmail(message.text), "UTF-8");
                     break
                 case currentSection.questions[2].question:
-                    fs.appendFile(filePath, setPhone(message.text), err => {
-                        if (err) throw err;
-                    });
+                    fs.appendFileSync(filePath, setPhone(message.text), "UTF-8");
+                    // fs.appendFile(filePath, setPhone(message.text), err => {
+                    //     if (err) throw err;
+                    // });
                     break
                 case currentSection.questions[3].question:
                     fs.appendFile(filePath, setLinkedin(message.text), err => {
