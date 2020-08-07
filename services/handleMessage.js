@@ -95,31 +95,35 @@ const handleMessage = (messageEvent) => {
 
         let currentSection = connectedUser.structure[currentSectionName];
 
-        const resume = fs.createWriteStream(folderPath + '/main.tex');
+        // const resume = fs.createWriteStream(folderPath + '/main.tex');
         const resume_template = fs.createWriteStream(folderPath + '/scimisc-cv.sty');
         resume_template.write(fontPackage)
 
         const filePath = folderPath + '/main.tex';
         console.log(filePath);
 
-        fs.readFile(filePath, 'utf8', (err, data) => {
-            console.log(data);
-        });
-
         if (currentSectionName === 'header') {
             switch (currentQuestion) {
                 case currentSection.questions[0].question:
-                    fs.appendFileSync(filePath, setName(message.text), "UTF-8");
+                    fs.appendFile(filePath, setName(message.text), err => {
+                        if (err) throw err;
+                    });
+                    // resume.write(setName(message.text));
+                    // resume.
+                    // fs.appendFileSync(filePath, setName(message.text), "UTF-8");
                     // fs.writeFileSync(filePath, setName(message.text), "UTF-8", {'flags': 'a'});
                     break
                 case currentSection.questions[1].question:
-                    fs.appendFileSync(filePath, setEmail(message.text), "UTF-8");
+                    fs.appendFile(filePath, setEmail(message.text), err => {
+                        if (err) throw err;
+                    });
+                    // fs.appendFileSync(filePath, setEmail(message.text), "UTF-8");
                     break
                 case currentSection.questions[2].question:
-                    fs.appendFileSync(filePath, setPhone(message.text), "UTF-8");
-                    // fs.appendFile(filePath, setPhone(message.text), err => {
-                    //     if (err) throw err;
-                    // });
+                    // fs.appendFileSync(filePath, setPhone(message.text), "UTF-8");
+                    fs.appendFile(filePath, setPhone(message.text), err => {
+                        if (err) throw err;
+                    });
                     break
                 case currentSection.questions[3].question:
                     fs.appendFile(filePath, setLinkedin(message.text), err => {
@@ -135,7 +139,7 @@ const handleMessage = (messageEvent) => {
                     break
             }
         }
-        resume.end();
+        // resume.end();
     }
 
     // Response Structure Traversal
