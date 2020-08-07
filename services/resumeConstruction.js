@@ -6,11 +6,17 @@ const { educationSection, setInstituteAndLocation, setMajor, setMarks, setStream
 const { skillsSection, setSkills } = require('../resources/skills');
 const { experienceSection, setRoleAndLocation, setCompanyAndTimeline, setDesc } = require('../resources/experience');
 const { projectsSection, setTitleAndLink, setTimeline, setDescription } = require('../resources/projects');
+const { achievementsSection, setAchievement } = require('../resources/achievements');
+const { certificationsSection, setCertification } = require('../resources/certifications');
+const { publicationsSection, setPublication } = require('../resources/publications');
 
 let educationPush = true;
 let skillsPush = true;
 let experiencePush = true;
 let projectsPush = true;
+let achievementsPush = true;
+let certificationsPush = true;
+let publicationsPush = true;
 
 let institute = '';
 let subSkill = '';
@@ -168,6 +174,57 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
                 break
             case section.questions[1].question[3].ask:
                 fs.appendFile(filePath, setDescription(message), err => {
+                    if (err) throw err;
+                });
+                break
+            default:
+                break
+        }
+    } else if (sectionName === 'achievements') {
+        if (achievementsPush) {
+            fs.appendFile(filePath, achievementsSection, err => {
+                if (err) throw err;
+            });
+            achievementsPush = false;
+        }
+
+        switch (question) {
+            case section.questions[1].question[0].ask:
+                fs.appendFile(filePath, setAchievement(message), err => {
+                    if (err) throw err;
+                });
+                break
+            default:
+                break
+        }
+    } else if (sectionName === 'certifications') {
+        if (certificationsPush) {
+            fs.appendFile(filePath, certificationsSection, err => {
+                if (err) throw err;
+            });
+            certificationsPush = false;
+        }
+
+        switch (question) {
+            case section.questions[1].question[0].ask:
+                fs.appendFile(filePath, setCertification(message), err => {
+                    if (err) throw err;
+                });
+                break
+            default:
+                break
+        }
+    } else if (sectionName === 'publications') {
+        if (publicationsPush) {
+            fs.appendFile(filePath, publicationsSection, err => {
+                if (err) throw err;
+            });
+            publicationsPush = false;
+        }
+
+        switch (question) {
+            case section.questions[1].question[0].ask:
+                fs.appendFile(filePath, setPublication(message), err => {
                     if (err) throw err;
                 });
                 break
