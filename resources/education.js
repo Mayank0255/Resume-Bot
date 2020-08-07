@@ -12,7 +12,7 @@ const educationSection = `
 
 const setInstituteAndLocation = (name, location) => {
     return `
-    \\cvsubsection{${name}[${location}]`;
+    \\cvsubsection{${name}}[${location}]`;
 }
 
 const setStream = stream => {

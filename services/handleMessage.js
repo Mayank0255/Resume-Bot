@@ -33,6 +33,7 @@ let currentSectionName = '';
 let currentQuestion = '';
 let currentQuickReplies = [];
 let educationPush = true;
+let institute = '';
 
 // Handles messages events
 const handleMessage = (messageEvent) => {
@@ -142,7 +143,6 @@ const handleMessage = (messageEvent) => {
                 educationPush = false;
             }
 
-            let institute = '';
             switch (currentQuestion) {
                 case currentSection.questions[1].question[0].ask:
                     institute = message.text;
