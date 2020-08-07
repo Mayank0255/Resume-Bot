@@ -8,6 +8,7 @@ const {
     genQuickReplies,
     genAttachment
 } = require('./genMessages');
+const { firstQuestion } = require('../resources/header');
 
 
 /**
@@ -108,17 +109,7 @@ const handleMessage = (messageEvent) => {
         if (currentSectionName === 'header') {
             switch (currentQuestion) {
                 case currentSection.questions[0].question:
-                    fs.appendFile(filePath, `
-                    \\documentclass{article}
-                    \\usepackage{scimisc-cv}
-                    \\usepackage{hyperref}
-                    
-                    \\title{Resume Template}
-                    \\author{${message.text}}
-                    \\date{May 2020}
-                    
-                    %% These are custom commands defined in scimisc-cv.sty
-                    \\cvname{${message.text}}`, err => {
+                    fs.appendFile(filePath, firstQuestion(message.text), err => {
                         if (err) throw err;
                         console.log('Saved!');
                     });
