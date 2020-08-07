@@ -8,8 +8,7 @@ const {
     genQuickReplies,
     genAttachment
 } = require('./genMessages');
-const { setName, setEmail, setPhone, setLinkedin, setPortfolio } = require('../resources/header');
-const { educationSection, setInstituteAndLocation, setMajor, setMarks, setStream } = require('../resources/education');
+const resumeConstruction = require('../services/resumeConstruction');
 
 
 /**
@@ -32,8 +31,6 @@ var connectedUsers = {}
 let currentSectionName = '';
 let currentQuestion = '';
 let currentQuickReplies = [];
-let educationPush = true;
-let institute = '';
 
 // Handles messages events
 const handleMessage = (messageEvent) => {
@@ -98,79 +95,7 @@ const handleMessage = (messageEvent) => {
 
         let currentSection = connectedUser.structure[currentSectionName];
 
-        const resume_template = fs.createWriteStream(folderPath + '/scimisc-cv.sty');
-        resume_template.write(fontPackage);
-        resume_template.end();
-
-        const filePath = folderPath + '/main.tex';
-        console.log(filePath);
-
-        if (currentSectionName === 'header') {
-            switch (currentQuestion) {
-                case currentSection.questions[0].question:
-                    fs.appendFile(filePath, setName(message.text), err => {
-                        if (err) throw err;
-                    });
-                    break
-                case currentSection.questions[1].question:
-                    fs.appendFile(filePath, setEmail(message.text), err => {
-                        if (err) throw err;
-                    });
-                    break
-                case currentSection.questions[2].question:
-                    fs.appendFile(filePath, setPhone(message.text), err => {
-                        if (err) throw err;
-                    });
-                    break
-                case currentSection.questions[3].question:
-                    fs.appendFile(filePath, setLinkedin(message.text), err => {
-                        if (err) throw err;
-                    });
-                    break
-                case currentSection.questions[4].question:
-                    fs.appendFile(filePath, setPortfolio(message.text), err => {
-                        if (err) throw err;
-                    });
-                    break
-                default:
-                    break
-            }
-        } else if (currentSectionName === 'education') {
-            if (educationPush) {
-                fs.appendFile(filePath, educationSection, err => {
-                    if (err) throw err;
-                });
-                educationPush = false;
-            }
-
-            switch (currentQuestion) {
-                case currentSection.questions[1].question[0].ask:
-                    institute = message.text;
-                    break
-                case currentSection.questions[1].question[1].ask:
-                    fs.appendFile(filePath, setInstituteAndLocation(institute, message.text), err => {
-                        if (err) throw err;
-                    });
-                    break
-                case currentSection.questions[1].question[2].ask:
-                    fs.appendFile(filePath, setStream(message.text), err => {
-                        if (err) throw err;
-                    });
-                    break
-                case currentSection.questions[1].question[3].ask:
-                    fs.appendFile(filePath, setMajor(message.text), err => {
-                        if (err) throw err;
-                    });
-                    break
-                case currentSection.questions[1].question[4].ask:
-                    fs.appendFile(filePath, setMarks(message.text), err => {
-                        if (err) throw err;
-                    });
-                    break
-                default:
-                    break
-            }
-        }
+        resumeConstruction(message.text, currentSectionName, currentQuestion, currentSection, folderPath);
     }
 
     // Response Structure Traversal
