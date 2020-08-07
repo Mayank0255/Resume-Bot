@@ -1,8 +1,6 @@
 const fs = require('fs');
-const archiver = require('archiver');
-var zipFolder = require('zip-folder');
+const zipFolder = require('zip-folder');
 
-const fontPackage = require('../resources/scimisc-cv');
 const responseOrder = require('../utils/responseOrder');
 const responseStructure = require('../utils/responseStructure');
 const {
@@ -11,6 +9,7 @@ const {
     genAttachment
 } = require('./genMessages');
 const resumeConstruction = require('../services/resumeConstruction');
+const { WEBSITE_URL } = require('../config');
 
 
 /**
@@ -93,61 +92,33 @@ const handleMessage = (messageEvent) => {
             });
             toPrepareResume = true;
 
-            zipFolder(folderPath, `public/${senderID}.zip`, function(err) {
-                if(err) {
-                    console.log('oh no!', err);
+            zipFolder(folderPath, `public/${senderID}.zip`, err => {
+                if (err) {
+                    console.log('ERROR: ', err);
                 } else {
-                    console.log('EXCELLENT');
+                    console.log('Converted Successfully!');
                 }
             });
 
-                // const output = fs.createWriteStream(`public/${senderID}.zip`);
-                // console.log('CHECKOUT:', `public/${senderID}.zip`);
-                // //Set the compression format to zip
-                // const archive = archiver('zip', {
-                //     zlib: { level: 9 } // Sets the compression level.
-                // });
-                //
-                // // listen for all archive data to be written
-                // // 'close' event is fired only when a file descriptor is involved
-                // output.on('close', function() {
-                //     console.log(archive.pointer() + ' total bytes');
-                //     console.log('archiver has been finalized and the output file descriptor has closed.');
-                // });
-                //
-                // // This event is fired when the data source is drained no matter what was the data source.
-                // // It is not part of this library but rather from the NodeJS Stream API.
-                // // @see:   https://nodejs.org/api/stream.html#stream_event_end
-                // output.on('end', function() {
-                //     console.log('Data has been drained');
-                // });
-                //
-                // // good practice to catch this error explicitly
-                // archive.on('error', function(err) {
-                //     throw err;
-                // });
-                //
-                // // pipe archive data to the file
-                // archive.pipe(output);
-                //
-                // // append a file
-                // archive.file(folderPath + '/main.tex', { name: 'main.tex' });
-                // archive.file(folderPath + '/scimisc-cv.sty', { name: 'scimisc-cv.sty' });
-                //
-                // // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand
-                // archive.finalize();
+            const finalZipUrl = `https://www.overleaf.com/docs?snip_uri=${WEBSITE_URL}/${senderID}.zip`;
+
+            currentQuestion = `Here's the link to your Resume - ${finalZipUrl}. Keep it safe`;
+
+            genQuestion(senderID, currentQuestion);
         }
     }
 
     // Resume file creation
     if (message.text && !message.quick_reply && currentSectionName !== '') {
-        console.log('RESPONSE CHECK:', message.text);
-        console.log('SECTION NAME CHECK:', currentSectionName);
-        console.log('QUESTION CHECK:', currentQuestion);
-
         let currentSection = connectedUser.structure[currentSectionName];
 
-        resumeConstruction(message.text, currentSectionName, currentQuestion, currentSection, folderPath);
+        resumeConstruction(
+            message.text,
+            currentSectionName,
+            currentQuestion,
+            currentSection,
+            folderPath
+        );
     }
 
     // Response Structure Traversal
@@ -191,11 +162,11 @@ const handleMessage = (messageEvent) => {
     }
 
     // Chat Bot Response
-    if (message.text && currentQuickReplies.length > 0) {
+    if (!toPrepareResume && message.text && currentQuickReplies.length > 0) {
         genQuickReplies(senderID, currentQuestion, currentQuickReplies);
-    } else if (message.text && currentQuickReplies.length === 0) {
+    } else if (!toPrepareResume && message.text && currentQuickReplies.length === 0) {
         genQuestion(senderID, currentQuestion);
-    } else if (message.attachments) {
+    } else if (!toPrepareResume && message.attachments) {
         genAttachment(senderID, message.attachments[0].payload.url)
     }
 }
