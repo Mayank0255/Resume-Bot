@@ -1,8 +1,8 @@
 const fs = require('fs');
 const zipFolder = require('zip-folder');
 
-const responseOrder = require('../utils/responseOrder');
-const responseStructure = require('../utils/responseStructure');
+const responseOrder = require('../structures/responseOrder');
+const responseStructure = require('../structures/responseStructure');
 const {
     genQuestion,
     genQuickReplies,

@@ -1,14 +1,14 @@
 const fs = require('fs');
 
-const fontPackage = require('../resources/scimisc-cv');
-const { setName, setEmail, setPhone, setLinkedin, setPortfolio } = require('../resources/header');
-const { educationSection, setInstituteAndLocation, setMajor, setMarks, setStream } = require('../resources/education');
-const { skillsSection, setSkills } = require('../resources/skills');
-const { experienceSection, setRoleAndLocation, setCompanyAndTimeline, setDesc } = require('../resources/experience');
-const { projectsSection, setTitleAndLink, setTimeline, setDescription } = require('../resources/projects');
-const { achievementsSection, setAchievement } = require('../resources/achievements');
-const { certificationsSection, setCertification } = require('../resources/certifications');
-const { publicationsSection, setPublication } = require('../resources/publications');
+const fontPackage = require('../components/scimisc-cv');
+const { setName, setEmail, setPhone, setLinkedin, setPortfolio } = require('../components/header');
+const { educationSection, setInstituteAndLocation, setMajor, setMarks, setStream } = require('../components/education');
+const { skillsSection, setSkills } = require('../components/skills');
+const { experienceSection, setRoleAndLocation, setCompanyAndTimeline, setDesc } = require('../components/experience');
+const { projectsSection, setTitleAndLink, setTimeline, setDescription } = require('../components/projects');
+const { achievementsSection, setAchievement } = require('../components/achievements');
+const { certificationsSection, setCertification } = require('../components/certifications');
+const { publicationsSection, setPublication } = require('../components/publications');
 
 let educationPush = true;
 let skillsPush = true;
