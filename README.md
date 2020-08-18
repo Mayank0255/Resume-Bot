@@ -21,3 +21,11 @@ A Messenger Chat bot in which a resume will be generated based on a couple of qu
 * Implement Redis & remove static variable
 
 _NOTE: Not for public use currently due to Facebook policy._
+
+## DEMO
+
+#### VIDEO - _Under Development_
+  
+#### IMAGES
+<img src="/public/demo/2.webp" width=340px /><img src="/public/demo/3.webp" width=340px />
+<img src="/public/demo/1.webp" width=340px />
