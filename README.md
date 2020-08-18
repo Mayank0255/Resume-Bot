@@ -3,6 +3,7 @@ A Messenger Chat bot in which a resume will be generated based on a couple of qu
 
 [![NPM](https://img.shields.io/static/v1?label=npm&message=>= 6.8.5&color=blue)](https://shields.io/)
 [![NODE](https://img.shields.io/static/v1?label=node&message=>= 10.12.8&color=success)](https://shields.io/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://shields.io/)
 
 ## Details
 #### Back-end
