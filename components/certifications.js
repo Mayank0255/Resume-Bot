@@ -10,7 +10,7 @@ const setCertification = certificate => {
 
 }
 
-module.exports = {
+module.exports = certificationsHolder = {
     certificationsSection,
     setCertification
 }

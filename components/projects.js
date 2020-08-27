@@ -20,7 +20,7 @@ const setDescription = (description) => {
         ${description}`;
 }
 
-module.exports = {
+module.exports = projectsHolder = {
     projectsSection,
     setTitleAndLink,
     setTimeline,

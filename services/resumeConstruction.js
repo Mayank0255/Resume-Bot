@@ -1,14 +1,14 @@
 const fs = require('fs');
 
 const fontPackage = require('../components/scimisc-cv');
-const { setName, setEmail, setPhone, setLinkedin, setPortfolio } = require('../components/header');
-const { educationSection, setInstituteAndLocation, setMajor, setMarks, setStream } = require('../components/education');
-const { skillsSection, setSkills } = require('../components/skills');
-const { experienceSection, setRoleAndLocation, setCompanyAndTimeline, setDesc } = require('../components/experience');
-const { projectsSection, setTitleAndLink, setTimeline, setDescription } = require('../components/projects');
-const { achievementsSection, setAchievement } = require('../components/achievements');
-const { certificationsSection, setCertification } = require('../components/certifications');
-const { publicationsSection, setPublication } = require('../components/publications');
+const headerHolder = require('../components/header');
+const educationHolder = require('../components/education');
+const skillsHolder = require('../components/skills');
+const experienceHolder = require('../components/experience');
+const projectsHolder = require('../components/projects');
+const achievementsHolder = require('../components/achievements');
+const certificationsHolder = require('../components/certifications');
+const publicationsHolder = require('../components/publications');
 
 let educationPush = true;
 let skillsPush = true;
@@ -35,27 +35,27 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
     if (sectionName === 'header') {
         switch (question) {
             case section.questions[0].question:
-                fs.appendFile(filePath, setName(message), err => {
+                fs.appendFile(filePath, headerHolder.setName(message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[1].question:
-                fs.appendFile(filePath, setEmail(message), err => {
+                fs.appendFile(filePath, headerHolder.setEmail(message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[2].question:
-                fs.appendFile(filePath, setPhone(message), err => {
+                fs.appendFile(filePath, headerHolder.setPhone(message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[3].question:
-                fs.appendFile(filePath, setLinkedin(message), err => {
+                fs.appendFile(filePath, headerHolder.setLinkedin(message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[4].question:
-                fs.appendFile(filePath, setPortfolio(message), err => {
+                fs.appendFile(filePath, headerHolder.setPortfolio(message), err => {
                     if (err) throw err;
                 });
                 break
@@ -64,7 +64,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
         }
     } else if (sectionName === 'education') {
         if (educationPush) {
-            fs.appendFile(filePath, educationSection, err => {
+            fs.appendFile(filePath, educationHolder.educationSection, err => {
                 if (err) throw err;
             });
             educationPush = false;
@@ -75,22 +75,22 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
                 institute = message;
                 break
             case section.questions[1].question[1].ask:
-                fs.appendFile(filePath, setInstituteAndLocation(institute, message), err => {
+                fs.appendFile(filePath, educationHolder.setInstituteAndLocation(institute, message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[1].question[2].ask:
-                fs.appendFile(filePath, setStream(message), err => {
+                fs.appendFile(filePath, educationHolder.setStream(message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[1].question[3].ask:
-                fs.appendFile(filePath, setMajor(message), err => {
+                fs.appendFile(filePath, educationHolder.setMajor(message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[1].question[4].ask:
-                fs.appendFile(filePath, setMarks(message), err => {
+                fs.appendFile(filePath, educationHolder.setMarks(message), err => {
                     if (err) throw err;
                 });
                 break
@@ -99,7 +99,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
         }
     } else if (sectionName === 'skills') {
         if (skillsPush) {
-            fs.appendFile(filePath, skillsSection, err => {
+            fs.appendFile(filePath, skillsHolder.skillsSection, err => {
                 if (err) throw err;
             });
             skillsPush = false;
@@ -110,7 +110,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
                 subSkill = message;
                 break
             case section.questions[1].question[1].ask:
-                fs.appendFile(filePath, setSkills(subSkill, message), err => {
+                fs.appendFile(filePath, skillsHolder.setSkills(subSkill, message), err => {
                     if (err) throw err;
                 });
                 break
@@ -119,7 +119,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
         }
     } else if (sectionName === 'work experience') {
         if (experiencePush) {
-            fs.appendFile(filePath, experienceSection, err => {
+            fs.appendFile(filePath, experienceHolder.experienceSection, err => {
                 if (err) throw err;
             });
             experiencePush = false;
@@ -130,7 +130,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
                 role = message;
                 break
             case section.questions[1].question[1].ask:
-                fs.appendFile(filePath, setRoleAndLocation(role, message), err => {
+                fs.appendFile(filePath, experienceHolder.setRoleAndLocation(role, message), err => {
                     if (err) throw err;
                 });
                 break
@@ -138,12 +138,12 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
                 company = message;
                 break
             case section.questions[1].question[3].ask:
-                fs.appendFile(filePath, setCompanyAndTimeline(company, message), err => {
+                fs.appendFile(filePath, experienceHolder.setCompanyAndTimeline(company, message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[1].question[4].ask:
-                fs.appendFile(filePath, setDesc(message), err => {
+                fs.appendFile(filePath, experienceHolder.setDesc(message), err => {
                     if (err) throw err;
                 });
                 break
@@ -152,7 +152,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
         }
     } else if (sectionName === 'projects') {
         if (projectsPush) {
-            fs.appendFile(filePath, projectsSection, err => {
+            fs.appendFile(filePath, projectsHolder.projectsSection, err => {
                 if (err) throw err;
             });
             projectsPush = false;
@@ -163,17 +163,17 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
                 title = message;
                 break
             case section.questions[1].question[1].ask:
-                fs.appendFile(filePath, setTitleAndLink(title, message), err => {
+                fs.appendFile(filePath, projectsHolder.setTitleAndLink(title, message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[1].question[2].ask:
-                fs.appendFile(filePath, setTimeline(message), err => {
+                fs.appendFile(filePath, projectsHolder.setTimeline(message), err => {
                     if (err) throw err;
                 });
                 break
             case section.questions[1].question[3].ask:
-                fs.appendFile(filePath, setDescription(message), err => {
+                fs.appendFile(filePath, projectsHolder.setDescription(message), err => {
                     if (err) throw err;
                 });
                 break
@@ -182,7 +182,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
         }
     } else if (sectionName === 'achievements') {
         if (achievementsPush) {
-            fs.appendFile(filePath, achievementsSection, err => {
+            fs.appendFile(filePath, achievementsHolder.achievementsSection, err => {
                 if (err) throw err;
             });
             achievementsPush = false;
@@ -190,7 +190,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
 
         switch (question) {
             case section.questions[1].question[0].ask:
-                fs.appendFile(filePath, setAchievement(message), err => {
+                fs.appendFile(filePath, achievementsHolder.setAchievement(message), err => {
                     if (err) throw err;
                 });
                 break
@@ -199,7 +199,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
         }
     } else if (sectionName === 'certifications') {
         if (certificationsPush) {
-            fs.appendFile(filePath, certificationsSection, err => {
+            fs.appendFile(filePath, certificationsHolder.certificationsSection, err => {
                 if (err) throw err;
             });
             certificationsPush = false;
@@ -207,7 +207,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
 
         switch (question) {
             case section.questions[1].question[0].ask:
-                fs.appendFile(filePath, setCertification(message), err => {
+                fs.appendFile(filePath, certificationsHolder.setCertification(message), err => {
                     if (err) throw err;
                 });
                 break
@@ -216,7 +216,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
         }
     } else if (sectionName === 'publications') {
         if (publicationsPush) {
-            fs.appendFile(filePath, publicationsSection, err => {
+            fs.appendFile(filePath, publicationsHolder.publicationsSection, err => {
                 if (err) throw err;
             });
             publicationsPush = false;
@@ -224,7 +224,7 @@ const resumeConstruction = ( message, sectionName, question, section, folderPath
 
         switch (question) {
             case section.questions[1].question[0].ask:
-                fs.appendFile(filePath, setPublication(message), err => {
+                fs.appendFile(filePath, publicationsHolder.setPublication(message), err => {
                     if (err) throw err;
                 });
                 break

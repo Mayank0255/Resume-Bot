@@ -10,7 +10,7 @@ const setAchievement = achievement => {
 
 }
 
-module.exports = {
+module.exports = achievementsHolder = {
     achievementsSection,
     setAchievement
 }

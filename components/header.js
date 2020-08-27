@@ -33,7 +33,7 @@ const setPortfolio = link => {
     \\href{${link}}{Portfolio}`
 }
 
-module.exports = {
+module.exports = headerHolder = {
     setName,
     setEmail,
     setPhone,

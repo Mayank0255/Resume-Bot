@@ -10,7 +10,7 @@ const setSkills = (subTitle, skills) => {
         \\item \\textbf{${subTitle}:} ${skills}`;
 }
 
-module.exports = {
+module.exports = skillsHolder = {
     skillsSection,
     setSkills
 }

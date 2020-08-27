@@ -32,7 +32,7 @@ const setMarks = marks => {
     \\end{itemize}`
 }
 
-module.exports = {
+module.exports = educationHolder = {
     educationSection,
     setInstituteAndLocation,
     setStream,

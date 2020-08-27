@@ -22,7 +22,7 @@ const setDesc = (description) => {
         ${description}`;
 }
 
-module.exports = {
+module.exports = experienceHolder = {
     experienceSection,
     setRoleAndLocation,
     setCompanyAndTimeline,

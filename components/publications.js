@@ -10,7 +10,7 @@ const setPublication = publication => {
 
 }
 
-module.exports = {
+module.exports = publicationsHolder = {
     publicationsSection,
     setPublication
 }
