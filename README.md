@@ -25,7 +25,7 @@ _NOTE: Not for public use currently due to Facebook policy._
 
 ## DEMO
 
-#### VIDEO - _Under Development_
+#### VIDEO - [Watch the Video](https://drive.google.com/file/d/1aeHKQhU6xT8uBzdSR2Jqy_fBi-UYz93U/view?usp=sharing)
   
 #### IMAGES
 <img src="/public/demo/2.webp" width=340px /><img src="/public/demo/3.webp" width=340px />
